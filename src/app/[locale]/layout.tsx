@@ -86,6 +86,7 @@ export default async function LocaleLayout({
               appName: tCommon('appName'),
               calculator: t('calculator'),
               planner: t('planner'),
+              profit: t('profit'),
               about: t('about'),
               login: t('login'),
             }}

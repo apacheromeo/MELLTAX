@@ -16,12 +16,14 @@
     "error": "Error",
     "success": "Success",
     "currency": "Baht",
-    "thb": "฿"
+    "thb": "฿",
+    "withholdingTax": "Withholding Tax"
   },
 
   "nav": {
     "calculator": "Calculator",
     "planner": "Tax Planner",
+    "profit": "Profit Calculator",
     "about": "About",
     "login": "Login",
     "logout": "Logout"
@@ -116,11 +118,37 @@
     "calculationError": "Calculation error occurred. Please try again"
   },
 
+  "profit": {
+    "title": "Profit & Pricing Calculator",
+    "description": "Calculate optimal selling price to achieve your target profit margin",
+    "costPrice": "Cost Price",
+    "enterCost": "Enter cost",
+    "profitMargin": "Profit Margin (%)",
+    "enterMargin": "Enter profit percentage",
+    "sellingPrice": "Selling Price",
+    "profitAmount": "Profit Amount",
+    "markup": "Markup (%)",
+    "taxWithholding": "Include Withholding Tax (if applicable)",
+    "withTax": "With Tax",
+    "selectTaxCategory": "Select tax category",
+    "noTax": "No Tax",
+    "finalReceived": "Final Amount Received (after tax)",
+    "calculate": "Calculate Price",
+    "result": "Calculation Result",
+    "summary": "Summary",
+    "costBreakdown": "Cost Breakdown",
+    "example": "Example",
+    "exampleTitle": "Pricing Example",
+    "exampleDesc": "If cost is 1,000 Baht and you want 30% profit, selling price should be 1,300 Baht (profit 300 Baht). With 3% withholding tax, you'll receive 1,261 Baht"
+  },
+
   "seo": {
     "homeTitle": "MELLTAX - Thai Withholding Tax Calculator | คำนวณภาษีหัก ณ ที่จ่าย",
     "homeDescription": "Free Thai withholding tax calculator. Easy to use, supports Thai and English. For freelancers and SMEs.",
     "plannerTitle": "Tax Planner - MELLTAX",
     "plannerDescription": "Plan withholding tax for multiple invoices with charts",
+    "profitTitle": "Profit Calculator - MELLTAX",
+    "profitDescription": "Calculate optimal selling price to achieve your target profit margin",
     "aboutTitle": "About - MELLTAX",
     "aboutDescription": "About MELLTAX - Thai withholding tax calculator for everyone"
   }

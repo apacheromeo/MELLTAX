@@ -12,16 +12,17 @@ export default function AboutPage() {
   const tAbout = useTranslations('about');
 
   return (
-    <div className="container-responsive py-8">
-      {/* Header */}
-      <div className="mb-8 text-center">
-        <h1 className="heading-1 text-gray-900 dark:text-white mb-4">
-          {tAbout('title')}
-        </h1>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-brand-light-bg via-white to-accent-50 dark:from-brand-dark-bg dark:via-neutral-900 dark:to-neutral-800">
+      <div className="container-responsive py-8 md:py-12">
+        {/* Header */}
+        <div className="mb-8 md:mb-12 text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-accent-600 to-brand-primary mb-4 animate-in slide-in-from-top-4 duration-700">
+            {tAbout('title')}
+          </h1>
+        </div>
 
-      {/* Top Ad */}
-      <AdBanner className="mb-8" />
+        {/* Top Ad */}
+        <AdBanner className="mb-8" />
 
       {/* What is MELLTAX */}
       <Card variant="bordered" padding="lg" className="mb-6">
@@ -98,15 +99,16 @@ export default function AboutPage() {
         </p>
       </Card>
 
-      {/* Contact */}
-      <Card variant="bordered" padding="lg">
-        <h2 className="heading-3 text-gray-900 dark:text-white mb-4">
-          {tAbout('contact')}
-        </h2>
-        <p className="text-body text-gray-700 dark:text-gray-300">
-          {tAbout('contactDesc')}
-        </p>
-      </Card>
+        {/* Contact */}
+        <Card variant="bordered" padding="lg">
+          <h2 className="heading-3 text-gray-900 dark:text-white mb-4">
+            {tAbout('contact')}
+          </h2>
+          <p className="text-body text-gray-700 dark:text-gray-300">
+            {tAbout('contactDesc')}
+          </p>
+        </Card>
+      </div>
     </div>
   );
 }

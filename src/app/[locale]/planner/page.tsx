@@ -132,19 +132,20 @@ export default function PlannerPage() {
   const chartData = prepareChartData();
 
   return (
-    <div className="container-responsive py-8">
-      {/* Header */}
-      <div className="mb-8">
-        <h1 className="heading-1 text-gray-900 dark:text-white mb-2">
-          {tPlanner('title')}
-        </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-400">
-          {tPlanner('description')}
-        </p>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-brand-light-bg via-white to-accent-50 dark:from-brand-dark-bg dark:via-neutral-900 dark:to-neutral-800">
+      <div className="container-responsive py-8 md:py-12">
+        {/* Header */}
+        <div className="mb-8 md:mb-12 text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-brand-primary via-accent-600 to-brand-primary mb-4 animate-in slide-in-from-top-4 duration-700">
+            {tPlanner('title')}
+          </h1>
+          <p className="text-lg md:text-xl text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto animate-in slide-in-from-top-6 duration-700">
+            {tPlanner('description')}
+          </p>
+        </div>
 
-      {/* Top Ad */}
-      <AdBanner className="mb-8" />
+        {/* Top Ad */}
+        <AdBanner className="mb-8" />
 
       {/* Add Invoice Form */}
       <Card variant="elevated" padding="lg" className="mb-8">
@@ -241,22 +242,23 @@ export default function PlannerPage() {
         />
       </Card>
 
-      {/* In-Content Ad */}
-      {invoices.length > 0 && <AdInContent className="mb-8" />}
+        {/* In-Content Ad */}
+        {invoices.length > 0 && <AdInContent className="mb-8" />}
 
-      {/* Chart */}
-      {invoices.length > 0 && (
-        <PlannerChart
-          data={chartData}
-          locale={locale}
-          translations={{
-            chartTitle: tPlanner('chartTitle'),
-            grossAmount: tPlanner('grossAmount'),
-            taxAmount: tPlanner('taxAmount'),
-            netAmount: tPlanner('netAmount'),
-          }}
-        />
-      )}
+        {/* Chart */}
+        {invoices.length > 0 && (
+          <PlannerChart
+            data={chartData}
+            locale={locale}
+            translations={{
+              chartTitle: tPlanner('chartTitle'),
+              grossAmount: tPlanner('grossAmount'),
+              taxAmount: tPlanner('taxAmount'),
+              netAmount: tPlanner('netAmount'),
+            }}
+          />
+        )}
+      </div>
     </div>
   );
 }

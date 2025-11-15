@@ -21,22 +21,23 @@ export function LanguageSwitch({ currentLocale }: LanguageSwitchProps) {
     // Remove current locale from pathname if it exists
     const pathWithoutLocale = pathname.replace(/^\/(th|en)/, '') || '/';
 
-    // Navigate to new locale
-    const newPath = locale === 'th' ? pathWithoutLocale : `/${locale}${pathWithoutLocale}`;
+    // Navigate to new locale with proper prefix
+    const newPath = `/${locale}${pathWithoutLocale}`;
     router.push(newPath);
+    router.refresh();
   };
 
   return (
-    <div className="flex items-center gap-1 rounded-lg border border-gray-300 dark:border-gray-600 p-1">
+    <div className="flex items-center gap-1 rounded-xl bg-neutral-100/80 dark:bg-neutral-800/80 p-1 backdrop-blur-sm border border-neutral-200/50 dark:border-neutral-700/50 shadow-md">
       {locales.map((locale) => (
         <button
           key={locale}
           onClick={() => switchLanguage(locale)}
           className={clsx(
-            'px-3 py-1.5 text-sm font-medium rounded-md transition-colors',
+            'px-4 py-1.5 text-sm font-bold rounded-lg transition-all duration-200',
             currentLocale === locale
-              ? 'bg-primary-600 text-white'
-              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+              ? 'bg-gradient-to-r from-brand-primary to-accent-600 text-white shadow-lg shadow-brand-primary/30 scale-105'
+              : 'text-neutral-600 dark:text-neutral-400 hover:bg-white dark:hover:bg-neutral-700 hover:shadow-sm hover:scale-105'
           )}
           aria-label={`Switch to ${locale === 'th' ? 'Thai' : 'English'}`}
         >
