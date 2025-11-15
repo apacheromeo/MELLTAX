@@ -9,6 +9,7 @@ import { notFound } from 'next/navigation';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { locales, Locale } from '@/lib/i18n/config';
+import { getWebApplicationSchema, getOrganizationSchema } from '@/lib/jsonld';
 import Script from 'next/script';
 
 export function generateStaticParams() {
@@ -45,9 +46,23 @@ export default async function LocaleLayout({
   const tFooter = await getTranslations('footer');
   const tCommon = await getTranslations('common');
 
+  // Generate JSON-LD schemas
+  const webAppSchema = getWebApplicationSchema(locale as Locale);
+  const orgSchema = getOrganizationSchema();
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <head>
+        {/* JSON-LD Structured Data */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+        />
+
         {/* Google AdSense Script */}
         {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
           <Script
@@ -57,8 +72,13 @@ export default async function LocaleLayout({
             strategy="afterInteractive"
           />
         )}
+
+        {/* Preconnect to speed up external resources */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
       </head>
-      <body className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-950">
+      <body className="min-h-screen flex flex-col bg-brand-light-bg dark:bg-brand-dark-bg">
         <NextIntlClientProvider messages={messages}>
           <Navbar
             locale={locale as Locale}

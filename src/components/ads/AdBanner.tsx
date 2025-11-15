@@ -35,22 +35,24 @@ export function AdBanner({
   // Don't show ads in development mode (optional)
   if (process.env.NODE_ENV === 'development') {
     return (
-      <div className={`bg-gray-100 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-8 text-center ${className}`}>
-        <p className="text-gray-500 dark:text-gray-400 text-sm">
-          AdSense Banner Placeholder (728x90)
-        </p>
-        <p className="text-gray-400 dark:text-gray-500 text-xs mt-2">
-          Ads will appear in production
-        </p>
+      <div className={`bg-gray-100 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-8 text-center min-h-[90px] flex items-center justify-center ${className}`}>
+        <div>
+          <p className="text-gray-500 dark:text-gray-400 text-sm">
+            AdSense Banner Placeholder (728x90)
+          </p>
+          <p className="text-gray-400 dark:text-gray-500 text-xs mt-2">
+            Ads will appear in production
+          </p>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className={`my-4 ${className}`}>
+    <div className={`my-4 min-h-[90px] ${className}`}>
       <ins
         className="adsbygoogle"
-        style={{ display: 'block' }}
+        style={{ display: 'block', minHeight: '90px' }}
         data-ad-client={clientId}
         data-ad-slot={slot}
         data-ad-format={format}
