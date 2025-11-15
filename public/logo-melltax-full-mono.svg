@@ -2,13 +2,13 @@
   <!-- Icon part -->
   <g id="icon">
     <!-- Rounded square background -->
-    <rect width="80" height="80" rx="16" fill="#2C3E6F"/>
+    <rect width="80" height="80" rx="16" fill="#111827"/>
 
     <!-- M flowing into checkmark -->
     <g transform="translate(17, 20)">
       <!-- Left part of M -->
       <path d="M 0 30 L 0 7 C 0 3 1 0 3 0 L 5 0 L 10 17 L 15 0 L 17 0 C 19 0 20 3 20 7 L 20 30"
-            stroke="#00B894"
+            stroke="#FFFFFF"
             stroke-width="4"
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -16,7 +16,7 @@
 
       <!-- Checkmark flowing from M -->
       <path d="M 21 17 L 28 24 L 41 5"
-            stroke="#00B894"
+            stroke="#FFFFFF"
             stroke-width="4"
             stroke-linecap="round"
             stroke-linejoin="round"
@@ -24,8 +24,8 @@
     </g>
 
     <!-- Subtle Thai Baht symbol -->
-    <g opacity="0.25" transform="translate(55, 55)">
-      <text x="0" y="0" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#00B894">฿</text>
+    <g opacity="0.15" transform="translate(55, 55)">
+      <text x="0" y="0" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#FFFFFF">฿</text>
     </g>
   </g>
 
@@ -36,7 +36,7 @@
           font-family="Inter, system-ui, -apple-system, sans-serif"
           font-size="36"
           font-weight="400"
-          fill="#2C3E6F"
+          fill="#111827"
           letter-spacing="-0.02em">MELL</text>
 
     <!-- TAX (bold weight) -->
@@ -44,10 +44,10 @@
           font-family="Inter, system-ui, -apple-system, sans-serif"
           font-size="36"
           font-weight="700"
-          fill="#2C3E6F"
+          fill="#111827"
           letter-spacing="-0.02em">TAX</text>
 
     <!-- Accent mark under X -->
-    <rect x="155" y="8" width="30" height="3" rx="1.5" fill="#00B894"/>
+    <rect x="155" y="8" width="30" height="3" rx="1.5" fill="#6B7280"/>
   </g>
 </svg>

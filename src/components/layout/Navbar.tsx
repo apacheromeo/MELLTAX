@@ -6,6 +6,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { clsx } from 'clsx';
 import { LanguageSwitch } from './LanguageSwitch';
@@ -40,15 +41,29 @@ export function Navbar({ locale, translations }: NavbarProps) {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 shadow-sm">
+    <nav className="sticky top-0 z-50 bg-white dark:bg-neutral-900 border-b border-neutral-200 dark:border-neutral-800 shadow-sm backdrop-blur-sm bg-white/95 dark:bg-neutral-900/95">
       <div className="container-responsive">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 font-bold text-xl text-primary-600">
-            <div className="flex items-center justify-center h-10 w-10 bg-primary-600 text-white rounded-lg">
-              <span className="text-lg">฿</span>
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="relative h-10 w-10 transition-transform group-hover:scale-105">
+              <Image
+                src="/logo-melltax-icon-80.svg"
+                alt="MELLTAX"
+                width={40}
+                height={40}
+                className="object-contain"
+              />
             </div>
-            <span>{translations.appName}</span>
+            <div className="hidden sm:flex flex-col">
+              <span className="text-lg font-bold leading-none">
+                <span className="text-brand-primary dark:text-white">MELL</span>
+                <span className="text-brand-primary dark:text-white font-extrabold">TAX</span>
+              </span>
+              <span className="text-[10px] text-accent-600 dark:text-accent-400 font-medium tracking-wide">
+                Tax Calculator
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
@@ -58,10 +73,10 @@ export function Navbar({ locale, translations }: NavbarProps) {
                 key={item.href}
                 href={item.href}
                 className={clsx(
-                  'px-4 py-2 rounded-lg text-sm font-medium transition-colors',
+                  'px-4 py-2 rounded-lg text-sm font-medium transition-all',
                   isActive(item.href, item.exact)
-                    ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
-                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                    ? 'bg-brand-primary text-white shadow-md'
+                    : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'
                 )}
               >
                 {item.label}
@@ -83,10 +98,10 @@ export function Navbar({ locale, translations }: NavbarProps) {
               key={item.href}
               href={item.href}
               className={clsx(
-                'px-4 py-2 rounded-lg text-sm font-medium transition-colors whitespace-nowrap',
+                'px-4 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap',
                 isActive(item.href, item.exact)
-                  ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
-                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  ? 'bg-brand-primary text-white shadow-md'
+                  : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800'
               )}
             >
               {item.label}
