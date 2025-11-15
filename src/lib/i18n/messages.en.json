@@ -1,0 +1,127 @@
+{
+  "common": {
+    "appName": "MELLTAX",
+    "tagline": "Simple Withholding Tax Calculator for Thailand",
+    "calculate": "Calculate",
+    "clear": "Clear",
+    "save": "Save",
+    "print": "Print",
+    "download": "Download",
+    "add": "Add",
+    "edit": "Edit",
+    "delete": "Delete",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "currency": "Baht",
+    "thb": "฿"
+  },
+
+  "nav": {
+    "calculator": "Calculator",
+    "planner": "Tax Planner",
+    "about": "About",
+    "login": "Login",
+    "logout": "Logout"
+  },
+
+  "hero": {
+    "title": "Simple Thai Withholding Tax Calculator",
+    "subtitle": "คำนวณภาษีหัก ณ ที่จ่ายแบบง่าย ๆ",
+    "feature1": "Supports Thai and English (TH / EN)",
+    "feature2": "Free, easy to use, with basic tax planning"
+  },
+
+  "calculator": {
+    "title": "Withholding Tax Calculator",
+    "paymentType": "Payment Type",
+    "selectPaymentType": "Select payment type",
+    "calculationMode": "Calculation Mode",
+    "grossToNet": "Gross → Net",
+    "netToGross": "Net → Gross",
+    "amount": "Amount",
+    "enterAmount": "Enter amount",
+    "customRate": "Custom Rate (optional)",
+    "taxRate": "Tax Rate",
+    "result": "Calculation Result",
+    "withholdingTax": "Withholding Tax",
+    "grossAmount": "Gross Amount",
+    "netAmount": "Net Amount",
+    "effectiveRate": "Effective Rate",
+    "saveCalculation": "Save Calculation",
+    "loginToSave": "Login to save",
+    "example": "Calculation Examples",
+    "exampleTitle": "Example Scenarios",
+    "exampleDesc1": "Gross Amount Case: Company pays 10,000 Baht, you must withhold 3% = 300 Baht, you receive net 9,700 Baht",
+    "exampleDesc2": "Net Amount Case: Want to receive net 10,000 Baht at 3% rate, you must invoice 10,309.28 Baht to withhold 309.28 Baht and receive the desired net amount"
+  },
+
+  "planner": {
+    "title": "Multi-Invoice Tax Planner",
+    "description": "Add multiple invoices to see total tax overview",
+    "addInvoice": "Add Invoice",
+    "invoiceDate": "Date",
+    "category": "Category",
+    "grossAmount": "Gross",
+    "taxRate": "Tax Rate",
+    "taxAmount": "Tax",
+    "netAmount": "Net",
+    "actions": "Actions",
+    "noInvoices": "No invoices yet. Click 'Add Invoice' to get started",
+    "summary": "Summary",
+    "totalGross": "Total Gross",
+    "totalTax": "Total Tax",
+    "totalNet": "Total Net",
+    "effectiveTaxRate": "Effective Tax Rate",
+    "invoiceCount": "Invoice Count",
+    "chartTitle": "Tax Chart by Invoice",
+    "savePlan": "Save Plan",
+    "loginToSavePlan": "Login to save plan",
+    "deleteConfirm": "Are you sure you want to delete this invoice?"
+  },
+
+  "about": {
+    "title": "About MELLTAX",
+    "whatIs": "What is MELLTAX?",
+    "whatIsDesc": "MELLTAX is a withholding tax calculator based on Thai tax law. Designed for freelancers, SMEs, and entrepreneurs to calculate taxes easily and quickly. Supports both Thai and English.",
+    "features": "Key Features",
+    "feature1": "Calculate withholding tax for all payment types",
+    "feature2": "Supports both Gross → Net and Net → Gross calculations",
+    "feature3": "Plan taxes by adding multiple invoices",
+    "feature4": "Visualize with charts for better overview",
+    "feature5": "Supports Thai and English languages",
+    "disclaimer": "Disclaimer",
+    "disclaimerDesc": "MELLTAX is only a basic calculation tool. It is not legal or tax advice. Users should consult tax professionals or accountants for advice appropriate to your situation. Tax rates may change according to law.",
+    "privacy": "Privacy",
+    "privacyDesc": "MELLTAX does not store your personal information. All calculations run in your browser. If you login and save data, it will be stored securely and will not be shared with third parties.",
+    "contact": "Contact",
+    "contactDesc": "If you have questions or suggestions, please contact us at [contact email/form here]"
+  },
+
+  "footer": {
+    "disclaimer": "MELLTAX is not legal or tax advice",
+    "privacy": "Privacy",
+    "terms": "Terms of Use",
+    "madeWith": "Made with ❤️ in Thailand"
+  },
+
+  "errors": {
+    "required": "This field is required",
+    "invalidAmount": "Please enter a valid amount",
+    "mustBePositive": "Amount must be greater than 0",
+    "invalidRate": "Tax rate must be between 0-100",
+    "selectCategory": "Please select a payment category",
+    "calculationError": "Calculation error occurred. Please try again"
+  },
+
+  "seo": {
+    "homeTitle": "MELLTAX - Thai Withholding Tax Calculator | คำนวณภาษีหัก ณ ที่จ่าย",
+    "homeDescription": "Free Thai withholding tax calculator. Easy to use, supports Thai and English. For freelancers and SMEs.",
+    "plannerTitle": "Tax Planner - MELLTAX",
+    "plannerDescription": "Plan withholding tax for multiple invoices with charts",
+    "aboutTitle": "About - MELLTAX",
+    "aboutDescription": "About MELLTAX - Thai withholding tax calculator for everyone"
+  }
+}
