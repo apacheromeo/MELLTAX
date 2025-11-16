@@ -1,160 +1,256 @@
 /**
- * Navbar component - Premium Dashboard Design
- * HR Management Dashboard aesthetic (Dribbble inspired)
- * 72px height, rounded-b-2xl, soft shadow, elegant spacing
+ * Navbar Component
+ * Premium top navigation bar with Tools dropdown
+ * Dribbble-inspired SaaS design
  */
 
 'use client';
 
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { clsx } from 'clsx';
-import { LanguageSwitch } from './LanguageSwitch';
-import { ThemeToggle } from '../theme/ThemeToggle';
-import { AuthButtons } from '@/components/auth/AuthButtons';
-import { MelltaxLogo, CalculatorIcon, PlannerIcon, InfoIcon } from '@/components/icons';
-import { Locale } from '@/lib/i18n/config';
-import { useTranslations } from 'next-intl';
+import { LogoIcon } from '@/components/icons/LogoIcon';
+import { ChevronDownIcon } from '@/components/icons/ChevronDownIcon';
+import { MenuIcon } from '@/components/icons/MenuIcon';
+import { ToolsDropdown } from './ToolsDropdown';
+import { MobileMenu } from './MobileMenu';
+import { useOnClickOutside } from '@/hooks/useOnClickOutside';
 
 interface NavbarProps {
-  locale: Locale;
-  translations: {
-    appName: string;
-    calculator: string;
-    planner: string;
-    profit: string;
-    incomeTax: string;
-    vat: string;
-    socialSecurity: string;
-    dashboard: string;
-    about: string;
-    login: string;
-  };
+  locale: 'th' | 'en';
+  onLocaleChange?: (locale: 'th' | 'en') => void;
 }
 
-export function Navbar({ locale, translations }: NavbarProps) {
+export function Navbar({ locale, onLocaleChange }: NavbarProps) {
   const pathname = usePathname();
-  const tAuth = useTranslations('auth');
+  const [isToolsOpen, setIsToolsOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
-  // Premium navigation - only 3 main items as per Dribbble design
-  const navItems = [
-    {
-      label: translations.calculator,
-      href: '/',
-      exact: true,
-      icon: CalculatorIcon
-    },
-    {
-      label: translations.planner,
-      href: '/planner',
-      exact: false,
-      icon: PlannerIcon
-    },
-    {
-      label: translations.about,
-      href: '/about',
-      exact: false,
-      icon: InfoIcon
-    },
-  ];
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const isActive = (href: string, exact: boolean) => {
-    if (exact) {
-      return pathname === href || pathname === `/${locale}`;
+  // Close dropdown when clicking outside
+  useOnClickOutside(dropdownRef, () => setIsToolsOpen(false));
+
+  // Close dropdown on navigation
+  useEffect(() => {
+    setIsToolsOpen(false);
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
+
+  // Close dropdown on ESC key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setIsToolsOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, []);
+
+  // Initialize theme from localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
+    if (savedTheme) {
+      setTheme(savedTheme);
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      setTheme('dark');
+      document.documentElement.classList.add('dark');
     }
-    return pathname.includes(href);
+  }, []);
+
+  const handleThemeToggle = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+    
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   };
 
+  const handleLocaleChange = (newLocale: 'th' | 'en') => {
+    if (onLocaleChange) {
+      onLocaleChange(newLocale);
+    }
+    // Navigate to new locale
+    const newPath = pathname.replace(`/${locale}`, `/${newLocale}`);
+    window.location.href = newPath;
+  };
+
+  const handleAuth = () => {
+    // Mock auth toggle (will integrate Supabase later)
+    setIsSignedIn(!isSignedIn);
+    console.log(isSignedIn ? 'Sign out' : 'Sign in with Google');
+  };
+
+  const navLinks = [
+    { href: `/${locale}/planner`, labelTh: 'วางแผนภาษี', labelEn: 'Planner' },
+    { href: `/${locale}/history`, labelTh: 'ประวัติ', labelEn: 'History' },
+    { href: `/${locale}/about`, labelTh: 'เกี่ยวกับ', labelEn: 'About' },
+  ];
+
   return (
-    <nav className="bg-brand-light-surface dark:bg-brand-dark-surface border-b border-brand-light-border/60 dark:border-brand-dark-border/50 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.12)] rounded-b-2xl sticky top-0 z-50 backdrop-blur-sm bg-opacity-95 dark:bg-opacity-95">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="flex h-[72px] items-center justify-between">
-          {/* Logo with Icon */}
-          <Link
-            href="/"
-            className="flex items-center gap-2.5 group"
-          >
-            <MelltaxLogo
-              className="text-brand-primary dark:text-brand-accent group-hover:text-brand-accent dark:group-hover:text-brand-primary transition-colors duration-300"
-              size={32}
-            />
-            <span className="text-xl font-semibold text-brand-primary dark:text-brand-text-dark tracking-tight group-hover:text-brand-accent dark:group-hover:text-brand-accent transition-colors duration-300">
-              MELLTAX
-            </span>
-          </Link>
+    <>
+      <nav className="sticky top-0 z-30 h-[72px] bg-white dark:bg-[#0F172A] border-b border-gray-200/50 dark:border-slate-700/50 shadow-[0_2px_8px_rgba(0,0,0,0.04)] dark:shadow-[0_2px_8px_rgba(0,0,0,0.2)] rounded-b-2xl">
+        <div className="max-w-7xl mx-auto px-6 h-full">
+          <div className="flex items-center justify-between h-full gap-8">
+            {/* Left: Logo */}
+            <Link
+              href={`/${locale}`}
+              className="flex items-center gap-3 group"
+            >
+              <LogoIcon
+                size={32}
+                className="text-[#00B894] group-hover:scale-110 transition-transform duration-200"
+              />
+              <span className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
+                MELLTAX
+              </span>
+            </Link>
 
-          {/* Center Navigation (Desktop) */}
-          <div className="hidden md:flex items-center gap-2">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const active = isActive(item.href, item.exact);
-
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="relative group"
+            {/* Center: Tools dropdown + Nav links (Desktop) */}
+            <div className="hidden lg:flex items-center gap-8">
+              {/* Tools Dropdown */}
+              <div ref={dropdownRef} className="relative">
+                <button
+                  onClick={() => setIsToolsOpen(!isToolsOpen)}
+                  className="flex items-center gap-2 px-4 py-2 text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white font-medium transition-colors group"
+                  aria-expanded={isToolsOpen}
+                  aria-haspopup="menu"
                 >
-                  <div
-                    className={clsx(
-                      'flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300',
-                      active
-                        ? 'text-brand-primary dark:text-brand-accent'
-                        : 'text-brand-text-light dark:text-brand-text-dark-light hover:text-brand-primary dark:hover:text-brand-accent hover:bg-brand-light-hover dark:hover:bg-brand-dark-hover'
-                    )}
+                  <span>{locale === 'th' ? 'เครื่องมือ' : 'Tools'}</span>
+                  <ChevronDownIcon
+                    size={16}
+                    className={`transition-transform duration-200 ${
+                      isToolsOpen ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+                
+                <ToolsDropdown
+                  isOpen={isToolsOpen}
+                  onClose={() => setIsToolsOpen(false)}
+                  locale={locale}
+                />
+              </div>
+
+              {/* Nav Links */}
+              {navLinks.map((link) => {
+                const label = locale === 'th' ? link.labelTh : link.labelEn;
+                const isActive = pathname === link.href;
+
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`relative px-1 py-2 font-medium transition-colors ${
+                      isActive
+                        ? 'text-gray-900 dark:text-white font-semibold'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                    }`}
                   >
-                    <Icon size={18} />
-                    {item.label}
-                  </div>
+                    {label}
+                    {isActive && (
+                      <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#00B894] rounded-full" />
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
 
-                  {/* Active underline indicator */}
-                  {active && (
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-12 h-[3px] bg-brand-accent rounded-full" />
-                  )}
-                </Link>
-              );
-            })}
-          </div>
+            {/* Right: Language, Theme, Auth (Desktop) */}
+            <div className="hidden lg:flex items-center gap-4">
+              {/* Language Switcher */}
+              <div className="flex gap-1 bg-gray-100 dark:bg-slate-800 rounded-lg p-1">
+                <button
+                  onClick={() => handleLocaleChange('th')}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-150 ${
+                    locale === 'th'
+                      ? 'bg-white dark:bg-slate-700 text-gray-900 dark:text-white shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                  }`}
+                >
+                  TH
+                </button>
+                <button
+                  onClick={() => handleLocaleChange('en')}
+                  className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all duration-150 ${
+                    locale === 'en'
+                      ? 'bg-white dark:bg-slate-700 text-gray-900 dark:text-white shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
+                  }`}
+                >
+                  EN
+                </button>
+              </div>
 
-          {/* Right side controls */}
-          <div className="flex items-center gap-3">
-            <AuthButtons
-              translations={{
-                signInWithGoogle: tAuth('signInWithGoogle'),
-                signOut: tAuth('signOut'),
-                welcome: tAuth('welcome'),
-              }}
-            />
-            <div className="hidden md:block w-px h-6 bg-brand-light-border dark:bg-brand-dark-border" />
-            <LanguageSwitch currentLocale={locale} />
-            <ThemeToggle />
-          </div>
-        </div>
-
-        {/* Mobile Navigation */}
-        <div className="md:hidden pb-4 flex gap-2 overflow-x-auto scrollbar-hide">
-          {navItems.map((item) => {
-            const Icon = item.icon;
-            const active = isActive(item.href, item.exact);
-
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={clsx(
-                  'relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-300',
-                  active
-                    ? 'bg-brand-accent/10 text-brand-accent border border-brand-accent/20'
-                    : 'text-brand-text-light dark:text-brand-text-dark-light hover:bg-brand-light-hover dark:hover:bg-brand-dark-hover'
-                )}
+              {/* Theme Toggle */}
+              <button
+                onClick={handleThemeToggle}
+                className="p-2 rounded-lg bg-gray-100 dark:bg-slate-800 hover:bg-gray-200 dark:hover:bg-slate-700 transition-colors"
+                aria-label="Toggle theme"
               >
-                <Icon size={16} />
-                {item.label}
-              </Link>
-            );
-          })}
+                <span className="text-lg">
+                  {theme === 'light' ? '☀️' : '🌙'}
+                </span>
+              </button>
+
+              {/* Auth Button */}
+              <button
+                onClick={handleAuth}
+                className={`px-4 py-2 font-semibold rounded-lg transition-all duration-150 ${
+                  isSignedIn
+                    ? 'bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-slate-700'
+                    : 'bg-[#00B894] hover:bg-[#00A080] text-white shadow-sm'
+                }`}
+              >
+                {isSignedIn ? (
+                  <div className="flex items-center gap-2">
+                    <div className="w-6 h-6 rounded-full bg-gray-300 dark:bg-gray-600" />
+                    <span className="text-sm">
+                      {locale === 'th' ? 'บัญชี' : 'Account'}
+                    </span>
+                  </div>
+                ) : (
+                  <span className="text-sm">
+                    {locale === 'th' ? 'เข้าสู่ระบบ' : 'Sign in'}
+                  </span>
+                )}
+              </button>
+            </div>
+
+            {/* Mobile: Hamburger Menu */}
+            <button
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
+              aria-label="Open menu"
+            >
+              <MenuIcon size={24} className="text-gray-700 dark:text-gray-300" />
+            </button>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+
+      {/* Mobile Menu */}
+      <MobileMenu
+        isOpen={isMobileMenuOpen}
+        onClose={() => setIsMobileMenuOpen(false)}
+        locale={locale}
+        onLocaleChange={handleLocaleChange}
+        onThemeToggle={handleThemeToggle}
+        theme={theme}
+        isSignedIn={isSignedIn}
+        onAuth={handleAuth}
+      />
+    </>
   );
 }

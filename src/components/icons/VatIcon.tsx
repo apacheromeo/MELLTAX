@@ -1,14 +1,14 @@
 /**
- * CalculatorIcon Component
- * Icon for withholding tax calculator
+ * VatIcon Component
+ * Icon for VAT calculator
  */
 
-interface CalculatorIconProps {
+interface VatIconProps {
   size?: number;
   className?: string;
 }
 
-export function CalculatorIcon({ size = 24, className = '' }: CalculatorIconProps) {
+export function VatIcon({ size = 24, className = '' }: VatIconProps) {
   return (
     <svg
       width={size}
@@ -19,31 +19,35 @@ export function CalculatorIcon({ size = 24, className = '' }: CalculatorIconProp
       className={className}
     >
       <rect
-        x="4"
-        y="2"
-        width="16"
-        height="20"
+        x="3"
+        y="6"
+        width="18"
+        height="12"
         rx="2"
         stroke="currentColor"
         strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <rect
-        x="7"
-        y="5"
-        width="10"
-        height="4"
-        rx="1"
-        fill="currentColor"
-        opacity="0.2"
-      />
       <path
-        d="M8 13H9M12 13H13M16 13H17M8 16H9M12 16H13M16 16H17M8 19H13"
+        d="M3 10H21"
         stroke="currentColor"
         strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
+      />
+      <path
+        d="M7 14H11"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle
+        cx="16"
+        cy="14"
+        r="1"
+        fill="currentColor"
       />
     </svg>
   );

@@ -1,14 +1,14 @@
 /**
- * CalculatorIcon Component
- * Icon for withholding tax calculator
+ * ExpenseIcon Component
+ * Icon for monthly expense calculator
  */
 
-interface CalculatorIconProps {
+interface ExpenseIconProps {
   size?: number;
   className?: string;
 }
 
-export function CalculatorIcon({ size = 24, className = '' }: CalculatorIconProps) {
+export function ExpenseIcon({ size = 24, className = '' }: ExpenseIconProps) {
   return (
     <svg
       width={size}
@@ -19,27 +19,25 @@ export function CalculatorIcon({ size = 24, className = '' }: CalculatorIconProp
       className={className}
     >
       <rect
-        x="4"
-        y="2"
-        width="16"
-        height="20"
+        x="3"
+        y="4"
+        width="18"
+        height="16"
         rx="2"
         stroke="currentColor"
         strokeWidth="1.8"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <rect
-        x="7"
-        y="5"
-        width="10"
-        height="4"
-        rx="1"
-        fill="currentColor"
-        opacity="0.2"
+      <path
+        d="M3 9H21"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
-        d="M8 13H9M12 13H13M16 13H17M8 16H9M12 16H13M16 16H17M8 19H13"
+        d="M7 13L10 16L17 9"
         stroke="currentColor"
         strokeWidth="1.8"
         strokeLinecap="round"
