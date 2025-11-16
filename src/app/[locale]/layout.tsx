@@ -80,21 +80,7 @@ export default async function LocaleLayout({
         <ClientLayout>
           <ToastProvider>
             <NextIntlClientProvider messages={messages}>
-              <Navbar
-                locale={locale as Locale}
-                translations={{
-                  appName: tCommon('appName'),
-                  calculator: t('calculator'),
-                  planner: t('planner'),
-                  profit: t('profit'),
-                  incomeTax: t('incomeTax'),
-                  vat: t('vat'),
-                  socialSecurity: t('socialSecurity'),
-                  dashboard: t('dashboard'),
-                  about: t('about'),
-                  login: t('login'),
-                }}
-              />
+              <Navbar locale={locale as Locale} />
 
               <main id="main-content" className="flex-1">
                 {children}
