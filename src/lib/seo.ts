@@ -1,73 +1,30 @@
 /**
- * SEO helper functions for MELLTAX
+ * SEO Helper Functions
+ * Phase 5: Centralized metadata generation for pages
  */
 
-import { Metadata } from 'next';
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://melltax.com';
-const siteName = 'MELLTAX';
-
-interface SEOParams {
+export interface PageMeta {
   title: string;
   description: string;
-  path?: string;
-  locale?: 'th' | 'en';
-  images?: string[];
+  url: string;
 }
 
-/**
- * Generate metadata for a page
- */
-export function generateMetadata({
-  title,
-  description,
-  path = '',
-  locale = 'th',
-  images = ['/og-image.png'],
-}: SEOParams): Metadata {
-  const url = `${siteUrl}${path}`;
-  const fullTitle = `${title} | ${siteName}`;
-
+export function generatePageMeta({ title, description, url }: PageMeta) {
   return {
-    title: fullTitle,
+    title,
     description,
-    alternates: {
-      canonical: url,
-      languages: {
-        'th': `${siteUrl}/th${path}`,
-        'en': `${siteUrl}/en${path}`,
-      },
-    },
     openGraph: {
-      title: fullTitle,
+      title,
       description,
       url,
-      siteName,
-      locale: locale === 'th' ? 'th_TH' : 'en_US',
-      type: 'website',
-      images: images.map(img => ({
-        url: `${siteUrl}${img}`,
-        width: 1200,
-        height: 630,
-        alt: title,
-      })),
+      type: 'website' as const,
+      images: ['/og-image.png'],
     },
     twitter: {
-      card: 'summary_large_image',
-      title: fullTitle,
+      card: 'summary_large_image' as const,
+      title,
       description,
-      images,
-    },
-    robots: {
-      index: true,
-      follow: true,
-      googleBot: {
-        index: true,
-        follow: true,
-        'max-video-preview': -1,
-        'max-image-preview': 'large',
-        'max-snippet': -1,
-      },
+      images: ['/og-image.png'],
     },
   };
 }

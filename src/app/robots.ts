@@ -1,13 +1,16 @@
+/**
+ * Robots.txt Configuration
+ * Phase 5: SEO crawler configuration
+ */
+
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://melltax.com';
-
   return {
     rules: {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: 'https://melltax.com/sitemap.xml',
   };
 }

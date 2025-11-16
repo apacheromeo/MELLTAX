@@ -1,31 +1,56 @@
+/**
+ * Sitemap Generation
+ * Phase 5: SEO sitemap for all routes
+ */
+
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://melltax.com';
-  const locales = ['th', 'en'];
-  const pages = ['', '/planner', '/about'];
+  const baseUrl = 'https://melltax.com';
+  const lastModified = new Date();
 
-  const urls: MetadataRoute.Sitemap = [];
-
-  // Generate URLs for each locale and page
-  locales.forEach((locale) => {
-    pages.forEach((page) => {
-      urls.push({
-        url: `${baseUrl}/${locale}${page}`,
-        lastModified: new Date(),
-        changeFrequency: 'weekly',
-        priority: page === '' ? 1.0 : 0.8,
-      });
-    });
-  });
-
-  // Add root URL
-  urls.push({
-    url: baseUrl,
-    lastModified: new Date(),
-    changeFrequency: 'weekly',
-    priority: 1.0,
-  });
-
-  return urls;
+  return [
+    {
+      url: baseUrl,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 1,
+    },
+    {
+      url: `${baseUrl}/th`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 1,
+    },
+    {
+      url: `${baseUrl}/en`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 1,
+    },
+    {
+      url: `${baseUrl}/th/planner`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/en/planner`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/th/about`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+    {
+      url: `${baseUrl}/en/about`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.5,
+    },
+  ];
 }

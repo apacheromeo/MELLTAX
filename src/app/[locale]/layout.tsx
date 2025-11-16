@@ -43,7 +43,6 @@ export default async function LocaleLayout({
 
   const messages = await getMessages();
   const t = await getTranslations('nav');
-  const tFooter = await getTranslations('footer');
   const tCommon = await getTranslations('common');
 
   // Generate JSON-LD schemas
@@ -98,14 +97,7 @@ export default async function LocaleLayout({
 
           <main className="flex-1">{children}</main>
 
-          <Footer
-            translations={{
-              disclaimer: tFooter('disclaimer'),
-              privacy: tFooter('privacy'),
-              about: t('about'),
-              madeWith: tFooter('madeWith'),
-            }}
-          />
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>

@@ -143,10 +143,14 @@
   },
 
   "footer": {
-    "disclaimer": "MELLTAX is not legal or tax advice",
-    "privacy": "Privacy",
-    "terms": "Terms of Use",
-    "madeWith": "Made with ❤️ in Thailand"
+    "tagline": "Simple withholding tax calculator for Thailand. Free, easy, and accurate.",
+    "linksCalculator": "Tax Calculator",
+    "linksPlanner": "Tax Planner",
+    "linksAbout": "About",
+    "linksPrivacy": "Privacy Policy",
+    "linksTerms": "Terms of Use",
+    "madeWith": "Made with ❤️ in Thailand",
+    "disclaimer": "MELLTAX is not legal or tax advice. Please consult tax professionals for advice specific to your situation."
   },
 
   "errors": {
