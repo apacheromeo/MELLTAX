@@ -1,9 +1,39 @@
 /**
  * Tax-related type definitions for MELLTAX
+ * Phase 3: Withholding tax calculation types
  */
 
-// Payment category types for withholding tax
-export type PaymentCategory =
+// Calculation mode: Gross to Net or Net to Gross
+export type CalculationMode = 'gross_to_net' | 'net_to_gross';
+
+// Payment category configuration
+export interface PaymentCategory {
+  id: string;           // e.g. 'service', 'ads', 'rent'
+  labelTh: string;
+  labelEn: string;
+  defaultRate: number;  // percentage, e.g. 3 = 3%
+  descriptionTh?: string;
+  descriptionEn?: string;
+}
+
+// Input for withholding tax calculation
+export interface WithholdingInput {
+  mode: CalculationMode;
+  paymentCategory: string;
+  taxRate: number;      // percentage, e.g. 3 = 3%
+  amount: number;       // gross or net depending on mode
+}
+
+// Result of withholding tax calculation
+export interface WithholdingResult {
+  gross: number;
+  net: number;
+  tax: number;
+  taxRate: number;      // same % used for calculation
+}
+
+// Legacy types (keep for backward compatibility with other calculators)
+export type PaymentCategoryLegacy =
   | 'service_general'       // บริการทั่วไป
   | 'advertising'           // ค่าโฆษณา
   | 'rent'                  // ค่าเช่า
@@ -14,33 +44,29 @@ export type PaymentCategory =
   | 'prize'                 // เงินรางวัล
   | 'other';                // อื่นๆ
 
-// Calculation mode: Gross to Net or Net to Gross
-export type CalculationMode = 'grossToNet' | 'netToGross';
+export type CalculationModeLegacy = 'grossToNet' | 'netToGross';
 
-// Withholding tax rate configuration
 export interface TaxRateConfig {
-  category: PaymentCategory;
-  rate: number; // percentage (e.g., 3 for 3%)
+  category: PaymentCategoryLegacy;
+  rate: number;
   nameTh: string;
   nameEn: string;
   descriptionTh?: string;
   descriptionEn?: string;
 }
 
-// Input for tax calculation
 export interface TaxCalculationInput {
-  category: PaymentCategory;
-  mode: CalculationMode;
-  amount: number; // The input amount (gross or net depending on mode)
-  customRate?: number; // Optional: override the default rate
+  category: PaymentCategoryLegacy;
+  mode: CalculationModeLegacy;
+  amount: number;
+  customRate?: number;
 }
 
-// Result of tax calculation
 export interface TaxCalculationResult {
   grossAmount: number;
   netAmount: number;
   taxAmount: number;
   taxRate: number;
-  category: PaymentCategory;
-  mode: CalculationMode;
+  category: PaymentCategoryLegacy;
+  mode: CalculationModeLegacy;
 }

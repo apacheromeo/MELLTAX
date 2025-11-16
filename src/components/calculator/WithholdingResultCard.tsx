@@ -1,143 +1,173 @@
 /**
  * WithholdingResultCard component
  * Displays the result of withholding tax calculation
+ * Phase 3: Premium dashboard design with empty state
  */
 
 'use client';
 
-import { Card, CardHeader, CardBody, CardFooter } from '@/components/common/Card';
-import { Button } from '@/components/common/Button';
-import { TaxCalculationResult } from '@/types/tax';
-import { formatCurrency, formatNumber } from '@/lib/tax/calculateWithholding';
+import { Card, CardBody } from '@/components/common/Card';
+import { CalculatorIcon } from '@/components/icons';
+import { WithholdingResult, WithholdingInput } from '@/types/tax';
+import { getCategoryById } from '@/lib/tax/withholdingRates';
 
 interface WithholdingResultCardProps {
-  result: TaxCalculationResult | null;
+  result?: WithholdingResult;
+  input?: WithholdingInput;
   locale: 'th' | 'en';
   translations: {
     result: string;
     withholdingTax: string;
     grossAmount: string;
     netAmount: string;
-    effectiveRate: string;
+    taxRate: string;
     print: string;
     save: string;
-    loginToSave: string;
+    emptyTitle: string;
+    emptySubtitle: string;
   };
 }
 
 export function WithholdingResultCard({
   result,
+  input,
   locale,
   translations,
 }: WithholdingResultCardProps) {
+  const formatCurrency = (amount: number): string => {
+    return new Intl.NumberFormat(locale === 'th' ? 'th-TH' : 'en-US', {
+      style: 'currency',
+      currency: 'THB',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(amount);
+  };
+
   const handlePrint = () => {
     window.print();
   };
 
   const handleSave = () => {
-    // TODO: Implement save to Supabase (requires authentication)
-    alert(translations.loginToSave);
+    alert(locale === 'th' ? 'กรุณาเข้าสู่ระบบเพื่อบันทึกการคำนวณ' : 'Please login to save calculations');
   };
 
+  // Empty state
   if (!result) {
     return (
-      <Card variant="bordered" padding="lg">
+      <Card variant="dashboard" padding="lg" className="h-full flex items-center justify-center">
         <div className="text-center py-12">
-          <div className="mx-auto w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-4">
-            <svg
-              className="w-8 h-8 text-gray-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-              />
-            </svg>
+          <div className="mx-auto w-20 h-20 bg-brand-primary-50 dark:bg-brand-primary-900/20 rounded-2xl flex items-center justify-center mb-6">
+            <CalculatorIcon className="text-brand-primary dark:text-brand-accent" size={40} />
           </div>
-          <p className="text-gray-600 dark:text-gray-400">
-            {locale === 'th'
-              ? 'กรอกข้อมูลด้านซ้ายแล้วกดคำนวณเพื่อดูผลลัพธ์'
-              : 'Enter information on the left and click Calculate to see results'}
+          <h3 className="text-lg font-semibold text-brand-text dark:text-brand-text-dark mb-2">
+            {translations.emptyTitle}
+          </h3>
+          <p className="text-brand-text-light dark:text-brand-text-dark-light max-w-sm mx-auto">
+            {translations.emptySubtitle}
           </p>
         </div>
       </Card>
     );
   }
 
-  return (
-    <Card variant="elevated" padding="lg" className="print:shadow-none">
-      <CardHeader>
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-          {translations.result}
-        </h2>
-      </CardHeader>
+  const category = input ? getCategoryById(input.paymentCategory) : null;
 
-      <CardBody>
-        {/* Main Result - Tax Amount */}
-        <div className="bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 rounded-xl p-6 mb-6">
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+  return (
+    <Card variant="dashboard" padding="lg" className="h-full print:shadow-none">
+      <div className="space-y-6">
+        {/* Header */}
+        <div>
+          <h2 className="text-2xl font-semibold text-brand-primary dark:text-brand-text-dark mb-1 tracking-tight">
+            {translations.result}
+          </h2>
+          {category && (
+            <p className="text-sm text-brand-text-light dark:text-brand-text-dark-light">
+              {locale === 'th' ? category.labelTh : category.labelEn}
+            </p>
+          )}
+        </div>
+
+        {/* Main Result - Withholding Tax Amount */}
+        <div className="relative rounded-2xl bg-gradient-to-br from-brand-accent/10 to-brand-primary/10 dark:from-brand-accent/20 dark:to-brand-primary/20 border-2 border-brand-accent/20 p-6">
+          <div className="absolute top-4 right-4">
+            <div className="w-12 h-12 rounded-xl bg-brand-accent/20 dark:bg-brand-accent/30 flex items-center justify-center">
+              <span className="text-2xl">💰</span>
+            </div>
+          </div>
+          <p className="text-sm font-medium text-brand-text-light dark:text-brand-text-dark-light mb-2">
             {translations.withholdingTax}
           </p>
-          <p className="text-4xl font-bold text-primary-700 dark:text-primary-400 tabular-nums">
-            {formatCurrency(result.taxAmount, locale)}
+          <p className="text-4xl font-bold text-brand-accent dark:text-brand-accent tabular-nums">
+            {formatCurrency(result.tax)}
+          </p>
+          <p className="mt-3 text-sm text-brand-text-lighter dark:text-brand-text-dark-lighter">
+            {locale === 'th' ? 'ภาษีที่ต้องหัก ณ ที่จ่าย' : 'Tax to be withheld at source'}
           </p>
         </div>
 
         {/* Breakdown */}
         <div className="space-y-4">
-          <div className="flex justify-between items-center pb-3 border-b border-gray-200 dark:border-gray-700">
-            <span className="text-gray-600 dark:text-gray-400">
+          {/* Gross Amount */}
+          <div className="flex justify-between items-center py-3 border-b border-brand-light-border dark:border-brand-dark-border">
+            <span className="text-brand-text-light dark:text-brand-text-dark-light font-medium">
               {translations.grossAmount}
             </span>
-            <span className="text-lg font-semibold text-gray-900 dark:text-white tabular-nums">
-              {formatCurrency(result.grossAmount, locale)}
+            <span className="text-xl font-semibold text-brand-text dark:text-brand-text-dark tabular-nums">
+              {formatCurrency(result.gross)}
             </span>
           </div>
 
-          <div className="flex justify-between items-center pb-3 border-b border-gray-200 dark:border-gray-700">
-            <span className="text-gray-600 dark:text-gray-400">
+          {/* Net Amount */}
+          <div className="flex justify-between items-center py-3 border-b border-brand-light-border dark:border-brand-dark-border">
+            <span className="text-brand-text-light dark:text-brand-text-dark-light font-medium">
               {translations.netAmount}
             </span>
-            <span className="text-lg font-semibold text-gray-900 dark:text-white tabular-nums">
-              {formatCurrency(result.netAmount, locale)}
+            <span className="text-xl font-semibold text-brand-text dark:text-brand-text-dark tabular-nums">
+              {formatCurrency(result.net)}
             </span>
           </div>
 
-          <div className="flex justify-between items-center">
-            <span className="text-gray-600 dark:text-gray-400">
-              {translations.effectiveRate}
+          {/* Tax Rate */}
+          <div className="flex justify-between items-center py-3">
+            <span className="text-brand-text-light dark:text-brand-text-dark-light font-medium">
+              {translations.taxRate}
             </span>
-            <span className="text-lg font-semibold text-secondary-600 dark:text-secondary-400 tabular-nums">
-              {formatNumber(result.taxRate, locale)}%
+            <span className="text-lg font-semibold text-brand-primary dark:text-brand-accent">
+              {result.taxRate}%
             </span>
           </div>
         </div>
-      </CardBody>
 
-      <CardFooter>
-        <div className="flex gap-3 no-print">
-          <Button
-            variant="outline"
-            size="md"
-            fullWidth
+        {/* Additional Notes */}
+        {category && category.descriptionTh && (
+          <div className="rounded-xl bg-brand-light-hover dark:bg-brand-dark-hover p-4 border border-brand-light-border dark:border-brand-dark-border">
+            <p className="text-xs font-medium text-brand-text-light dark:text-brand-text-dark-light mb-1">
+              {locale === 'th' ? 'หมายเหตุ' : 'Note'}
+            </p>
+            <p className="text-sm text-brand-text dark:text-brand-text-dark">
+              {locale === 'th' ? category.descriptionTh : category.descriptionEn}
+            </p>
+          </div>
+        )}
+
+        {/* Action Buttons */}
+        <div className="flex gap-3 pt-2 print:hidden">
+          <button
+            type="button"
             onClick={handlePrint}
+            className="flex-1 px-4 py-2.5 border-2 border-brand-primary dark:border-brand-accent text-brand-primary dark:text-brand-accent font-medium rounded-xl hover:bg-brand-primary hover:text-white dark:hover:bg-brand-accent dark:hover:text-white transition-all duration-200"
           >
             {translations.print}
-          </Button>
-          <Button
-            variant="secondary"
-            size="md"
-            fullWidth
+          </button>
+          <button
+            type="button"
             onClick={handleSave}
+            className="flex-1 px-4 py-2.5 bg-brand-light-hover dark:bg-brand-dark-hover border-2 border-brand-light-border dark:border-brand-dark-border text-brand-text-light dark:text-brand-text-dark-light font-medium rounded-xl hover:border-brand-primary dark:hover:border-brand-accent hover:text-brand-primary dark:hover:text-brand-accent transition-all duration-200"
           >
             {translations.save}
-          </Button>
+          </button>
         </div>
-      </CardFooter>
+      </div>
     </Card>
   );
 }

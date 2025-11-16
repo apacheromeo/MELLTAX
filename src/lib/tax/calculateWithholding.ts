@@ -1,63 +1,62 @@
 /**
- * Thai Withholding Tax Calculation Functions
+ * Withholding Tax Calculation Functions
+ * Phase 3: Core calculation logic
  */
 
-import { TaxCalculationInput, TaxCalculationResult } from '@/types/tax';
-import { getTaxRate } from './withholdingRates';
+import { WithholdingInput, WithholdingResult } from '@/types/tax';
+
+/**
+ * Helper function to round numbers to 2 decimal places
+ */
+function round2(n: number): number {
+  return Math.round(n * 100) / 100;
+}
 
 /**
  * Calculate withholding tax based on input parameters
  *
  * Formula explanations:
  *
- * 1. Gross to Net (กรณีรับเงินรวมภาษี):
- *    - Tax Amount = Gross × Tax Rate
- *    - Net Amount = Gross - Tax Amount
+ * 1. Gross to Net (mode = 'gross_to_net'):
+ *    - Tax = Gross × (Rate / 100)
+ *    - Net = Gross - Tax
  *
- * 2. Net to Gross (กรณีรับเงินสุทธิ):
- *    - Gross Amount = Net ÷ (1 - Tax Rate)
- *    - Tax Amount = Gross - Net
+ * 2. Net to Gross (mode = 'net_to_gross'):
+ *    - Gross = Net / (1 - Rate/100)
+ *    - Tax = Gross - Net
  *
  * @param input - The calculation input parameters
  * @returns The calculation result with all amounts
  */
-export function calculateWithholding(input: TaxCalculationInput): TaxCalculationResult {
-  const { category, mode, amount, customRate } = input;
+export function calculateWithholding(input: WithholdingInput): WithholdingResult {
+  const { mode, taxRate, amount } = input;
 
-  // Get the tax rate (use custom rate if provided, otherwise use standard rate)
-  const taxRateConfig = getTaxRate(category);
-  const taxRatePercent = customRate ?? taxRateConfig.rate;
-  const taxRateDecimal = taxRatePercent / 100;
+  // Convert percentage to decimal
+  const rateDecimal = taxRate / 100;
 
-  let grossAmount: number;
-  let netAmount: number;
-  let taxAmount: number;
+  let gross: number;
+  let net: number;
+  let tax: number;
 
-  if (mode === 'grossToNet') {
+  if (mode === 'gross_to_net') {
     // User enters gross amount, we calculate tax and net
-    grossAmount = amount;
-    taxAmount = grossAmount * taxRateDecimal;
-    netAmount = grossAmount - taxAmount;
+    gross = amount;
+    tax = gross * rateDecimal;
+    net = gross - tax;
   } else {
-    // mode === 'netToGross'
+    // mode === 'net_to_gross'
     // User enters net amount, we calculate gross and tax backwards
-    netAmount = amount;
-    grossAmount = netAmount / (1 - taxRateDecimal);
-    taxAmount = grossAmount - netAmount;
+    net = amount;
+    gross = net / (1 - rateDecimal);
+    tax = gross - net;
   }
 
-  // Round to 2 decimal places for currency
-  grossAmount = Math.round(grossAmount * 100) / 100;
-  netAmount = Math.round(netAmount * 100) / 100;
-  taxAmount = Math.round(taxAmount * 100) / 100;
-
+  // Round all values to 2 decimal places
   return {
-    grossAmount,
-    netAmount,
-    taxAmount,
-    taxRate: taxRatePercent,
-    category,
-    mode,
+    gross: round2(gross),
+    net: round2(net),
+    tax: round2(tax),
+    taxRate,
   };
 }
 
@@ -85,14 +84,15 @@ export function formatNumber(num: number, locale: 'th' | 'en' = 'th'): string {
 
 /**
  * Validate calculation input
+ * Returns errors if validation fails
  */
-export function validateCalculationInput(input: Partial<TaxCalculationInput>): {
+export function validateWithholdingInput(input: Partial<WithholdingInput>): {
   isValid: boolean;
   errors: string[];
 } {
   const errors: string[] = [];
 
-  if (!input.category) {
+  if (!input.paymentCategory) {
     errors.push('Payment category is required');
   }
 
@@ -106,10 +106,12 @@ export function validateCalculationInput(input: Partial<TaxCalculationInput>): {
     errors.push('Amount must be greater than zero');
   }
 
-  if (input.customRate !== undefined) {
-    if (input.customRate < 0 || input.customRate > 100) {
-      errors.push('Tax rate must be between 0 and 100');
-    }
+  if (input.taxRate === undefined || input.taxRate === null) {
+    errors.push('Tax rate is required');
+  } else if (input.taxRate <= 0) {
+    errors.push('Tax rate must be greater than zero');
+  } else if (input.taxRate > 35) {
+    errors.push('Tax rate cannot exceed 35%');
   }
 
   return {
