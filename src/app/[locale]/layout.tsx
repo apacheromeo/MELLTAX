@@ -9,6 +9,9 @@ import { notFound } from 'next/navigation';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ClientLayout } from '@/components/layout/ClientLayout';
+import { SkipToContent } from '@/components/layout/SkipToContent';
+import { TopLoadingBar } from '@/components/common/TopLoadingBar';
+import { ToastProvider } from '@/components/common/ToastProvider';
 import { locales, Locale } from '@/lib/i18n/config';
 import { getWebApplicationSchema, getOrganizationSchema } from '@/lib/jsonld';
 
@@ -68,28 +71,38 @@ export default async function LocaleLayout({
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
       </head>
       <body className="min-h-screen flex flex-col bg-brand-light dark:bg-brand-dark">
+        {/* Skip to Main Content (Accessibility) */}
+        <SkipToContent />
+
+        {/* Top Loading Bar */}
+        <TopLoadingBar />
+
         <ClientLayout>
-          <NextIntlClientProvider messages={messages}>
-            <Navbar
-              locale={locale as Locale}
-              translations={{
-                appName: tCommon('appName'),
-                calculator: t('calculator'),
-                planner: t('planner'),
-                profit: t('profit'),
-                incomeTax: t('incomeTax'),
-                vat: t('vat'),
-                socialSecurity: t('socialSecurity'),
-                dashboard: t('dashboard'),
-                about: t('about'),
-                login: t('login'),
-              }}
-            />
+          <ToastProvider>
+            <NextIntlClientProvider messages={messages}>
+              <Navbar
+                locale={locale as Locale}
+                translations={{
+                  appName: tCommon('appName'),
+                  calculator: t('calculator'),
+                  planner: t('planner'),
+                  profit: t('profit'),
+                  incomeTax: t('incomeTax'),
+                  vat: t('vat'),
+                  socialSecurity: t('socialSecurity'),
+                  dashboard: t('dashboard'),
+                  about: t('about'),
+                  login: t('login'),
+                }}
+              />
 
-            <main className="flex-1">{children}</main>
+              <main id="main-content" className="flex-1">
+                {children}
+              </main>
 
-            <Footer />
-          </NextIntlClientProvider>
+              <Footer />
+            </NextIntlClientProvider>
+          </ToastProvider>
         </ClientLayout>
       </body>
     </html>

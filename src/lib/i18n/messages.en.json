@@ -17,7 +17,8 @@
     "success": "Success",
     "currency": "Baht",
     "thb": "฿",
-    "withholdingTax": "Withholding Tax"
+    "withholdingTax": "Withholding Tax",
+    "skipToContent": "Skip to main content"
   },
 
   "nav": {
@@ -186,7 +187,29 @@
     "mustBePositive": "Amount must be greater than 0",
     "invalidRate": "Tax rate must be between 0-100",
     "selectCategory": "Please select a payment category",
-    "calculationError": "Calculation error occurred. Please try again"
+    "calculationError": "Calculation error occurred. Please try again",
+    "notFoundTitle": "Page Not Found",
+    "notFoundBody": "The page you're looking for doesn't exist or may have been moved",
+    "genericTitle": "Something Went Wrong",
+    "genericBody": "An error occurred while processing your request. Please try again"
+  },
+
+  "validation": {
+    "amountPositive": "Please enter an amount greater than 0",
+    "taxRateRange": "Tax rate must be between 0 and 100",
+    "required": "This field is required",
+    "invalidNumber": "Please enter a valid number",
+    "minValue": "Value must be at least {min}",
+    "maxValue": "Value must not exceed {max}"
+  },
+
+  "toast": {
+    "calculationSaved": "Calculation saved successfully",
+    "planSaved": "Tax plan saved successfully",
+    "planLoaded": "Tax plan loaded",
+    "planDeleted": "Tax plan deleted",
+    "error": "Something went wrong. Please try again",
+    "success": "Operation completed successfully"
   },
 
   "profit": {

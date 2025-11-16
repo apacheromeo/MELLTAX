@@ -8,20 +8,33 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { PlannerAddForm } from '@/components/planner/PlannerAddForm';
 import { PlannerTable } from '@/components/planner/PlannerTable';
 import { PlannerSummaryCard } from '@/components/planner/PlannerSummaryCard';
-import { PlannerChart } from '@/components/planner/PlannerChart';
 import { AdBanner } from '@/components/ads/AdBanner';
 import { AdInContent } from '@/components/ads/AdInContent';
 import { AdFooter } from '@/components/ads/AdFooter';
 import { Card } from '@/components/common/Card';
+import { Skeleton } from '@/components/common/Skeleton';
 import { PlannerItem } from '@/types/planner';
 import { Locale } from '@/lib/i18n/config';
 import { useSupabaseUser } from '@/hooks/useSupabaseUser';
+import { useToast } from '@/hooks/useToast';
+import { analytics } from '@/lib/analytics';
 import { createPlan, loadRecentPlans, deletePlan, type PlannerPlan } from '@/lib/planner/plannerService';
+
+// Lazy load the chart component (heavy due to Recharts)
+const PlannerChart = dynamic(() => import('@/components/planner/PlannerChart').then(mod => ({ default: mod.PlannerChart })), {
+  ssr: false,
+  loading: () => (
+    <div className="h-96 rounded-2xl border border-brand-light-border dark:border-brand-dark-border bg-brand-light-surface dark:bg-brand-dark-surface p-6">
+      <Skeleton variant="rectangular" height={350} />
+    </div>
+  ),
+});
 
 export default function PlannerPage() {
   const params = useParams();
@@ -29,14 +42,15 @@ export default function PlannerPage() {
 
   const t = useTranslations('common');
   const tPlanner = useTranslations('planner');
+  const tToast = useTranslations('toast');
   const { user } = useSupabaseUser();
+  const { addToast } = useToast();
 
   // State: planner items
   const [items, setItems] = useState<PlannerItem[]>([]);
   const [recentPlans, setRecentPlans] = useState<PlannerPlan[]>([]);
   const [loadingPlans, setLoadingPlans] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   // Load recent plans on mount
   useEffect(() => {
@@ -67,17 +81,15 @@ export default function PlannerPage() {
   // Save current plan
   const handleSavePlan = async () => {
     if (!user) {
-      setSaveMessage({ type: 'error', text: tPlanner('savePlanButton.requireLogin') });
-      setTimeout(() => setSaveMessage(null), 3000);
+      addToast({ type: 'warning', message: tPlanner('savePlanButton.requireLogin') });
       return;
     }
 
     if (items.length === 0) {
-      setSaveMessage({
-        type: 'error',
-        text: locale === 'th' ? 'กรุณาเพิ่มรายการก่อนบันทึกแผน' : 'Please add items before saving plan',
+      addToast({
+        type: 'warning',
+        message: locale === 'th' ? 'กรุณาเพิ่มรายการก่อนบันทึกแผน' : 'Please add items before saving plan',
       });
-      setTimeout(() => setSaveMessage(null), 3000);
       return;
     }
 
@@ -90,17 +102,16 @@ export default function PlannerPage() {
     const periodEnd = dates.length > 0 ? dates[dates.length - 1] : null;
 
     setSaving(true);
-    setSaveMessage(null);
 
     const result = await createPlan(planName, periodStart, periodEnd, items);
 
     if (result.success) {
-      setSaveMessage({ type: 'success', text: tPlanner('savePlanButton.success') });
-      setTimeout(() => setSaveMessage(null), 3000);
+      addToast({ type: 'success', message: tToast('planSaved') });
+      analytics.plannerSavePlan(items.length, true);
       loadPlans(); // Reload plans list
     } else {
-      setSaveMessage({ type: 'error', text: tPlanner('savePlanButton.error') });
-      setTimeout(() => setSaveMessage(null), 3000);
+      addToast({ type: 'error', message: tToast('error') });
+      analytics.plannerSavePlan(items.length, false);
     }
 
     setSaving(false);
@@ -109,6 +120,8 @@ export default function PlannerPage() {
   // Load a plan
   const handleLoadPlan = (plan: PlannerPlan) => {
     setItems(plan.items);
+    addToast({ type: 'success', message: tToast('planLoaded') });
+    analytics.plannerLoadPlan(plan.items.length);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -120,7 +133,11 @@ export default function PlannerPage() {
 
     const result = await deletePlan(planId);
     if (result.success) {
+      addToast({ type: 'success', message: tToast('planDeleted') });
+      analytics.plannerDeletePlan();
       loadPlans(); // Reload plans list
+    } else {
+      addToast({ type: 'error', message: tToast('error') });
     }
   };
 
@@ -191,25 +208,9 @@ export default function PlannerPage() {
           />
         </div>
 
-        {/* Save Plan Button & Message */}
+        {/* Save Plan Button */}
         {items.length > 0 && (
-          <div className="space-y-4">
-            {saveMessage && (
-              <div className={`rounded-xl p-4 ${
-                saveMessage.type === 'success'
-                  ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800'
-                  : 'bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800'
-              }`}>
-                <p className={`text-sm font-medium ${
-                  saveMessage.type === 'success'
-                    ? 'text-green-800 dark:text-green-200'
-                    : 'text-amber-800 dark:text-amber-200'
-                }`}>
-                  {saveMessage.type === 'success' ? '✓' : 'ⓘ'} {saveMessage.text}
-                </p>
-              </div>
-            )}
-
+          <div>
             <button
               onClick={handleSavePlan}
               disabled={saving || !user}

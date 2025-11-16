@@ -14,6 +14,8 @@ import { WithholdingResult, WithholdingInput } from '@/types/tax';
 import { getCategoryById } from '@/lib/tax/withholdingRates';
 import { useSupabaseUser } from '@/hooks/useSupabaseUser';
 import { saveCalculationToSupabase } from '@/lib/tax/saveCalculation';
+import { useToast } from '@/hooks/useToast';
+import { analytics } from '@/lib/analytics';
 
 interface WithholdingResultCardProps {
   result?: WithholdingResult;
@@ -42,8 +44,8 @@ export function WithholdingResultCard({
   translations,
 }: WithholdingResultCardProps) {
   const { user } = useSupabaseUser();
+  const { addToast } = useToast();
   const [saving, setSaving] = useState(false);
-  const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const formatCurrency = (amount: number): string => {
     return new Intl.NumberFormat(locale === 'th' ? 'th-TH' : 'en-US', {
@@ -61,8 +63,7 @@ export function WithholdingResultCard({
   const handleSave = async () => {
     // Check if user is logged in
     if (!user) {
-      setSaveMessage({ type: 'error', text: translations.saveRequireLogin });
-      setTimeout(() => setSaveMessage(null), 3000);
+      addToast({ type: 'warning', message: translations.saveRequireLogin });
       return;
     }
 
@@ -72,22 +73,21 @@ export function WithholdingResultCard({
     }
 
     setSaving(true);
-    setSaveMessage(null);
 
     try {
       const saveResult = await saveCalculationToSupabase(input, result);
 
       if (saveResult.success) {
-        setSaveMessage({ type: 'success', text: translations.saveSuccess });
-        setTimeout(() => setSaveMessage(null), 3000);
+        addToast({ type: 'success', message: translations.saveSuccess });
+        analytics.calculatorSave(true);
       } else {
-        setSaveMessage({ type: 'error', text: translations.saveError });
-        setTimeout(() => setSaveMessage(null), 3000);
+        addToast({ type: 'error', message: translations.saveError });
+        analytics.calculatorSave(false);
       }
     } catch (error) {
       console.error('Error saving calculation:', error);
-      setSaveMessage({ type: 'error', text: translations.saveError });
-      setTimeout(() => setSaveMessage(null), 3000);
+      addToast({ type: 'error', message: translations.saveError });
+      analytics.calculatorSave(false);
     } finally {
       setSaving(false);
     }
@@ -188,23 +188,6 @@ export function WithholdingResultCard({
             </p>
             <p className="text-sm text-brand-text dark:text-brand-text-dark">
               {locale === 'th' ? category.descriptionTh : category.descriptionEn}
-            </p>
-          </div>
-        )}
-
-        {/* Save Message Toast */}
-        {saveMessage && (
-          <div className={`rounded-xl p-4 ${
-            saveMessage.type === 'success'
-              ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800'
-              : 'bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800'
-          }`}>
-            <p className={`text-sm font-medium ${
-              saveMessage.type === 'success'
-                ? 'text-green-800 dark:text-green-200'
-                : 'text-amber-800 dark:text-amber-200'
-            }`}>
-              {saveMessage.type === 'success' ? '✓' : 'ⓘ'} {saveMessage.text}
             </p>
           </div>
         )}
