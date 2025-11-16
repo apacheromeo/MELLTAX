@@ -1,6 +1,6 @@
 /**
  * Home Page - Withholding Tax Calculator
- * Dashboard design with HR management aesthetic
+ * Premium dashboard design with HR management aesthetic (Dribbble inspired)
  */
 
 'use client';
@@ -15,6 +15,7 @@ import { TaxScenarioExamples } from '@/components/calculator/TaxScenarioExamples
 import { AdBanner } from '@/components/ads/AdBanner';
 import { AdInContent } from '@/components/ads/AdInContent';
 import { Card } from '@/components/common/Card';
+import { MelltaxLogo } from '@/components/icons';
 import { TaxCalculationResult } from '@/types/tax';
 import { Locale } from '@/lib/i18n/config';
 
@@ -34,27 +35,56 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-brand-light dark:bg-brand-dark">
-      <div className="container-responsive py-8 md:py-12 lg:py-16">
-        {/* Hero Section - Dashboard Style */}
-        <div className="mb-12">
-          <div className="inline-flex items-center gap-2 mb-4 px-4 py-2 bg-brand-accent/10 dark:bg-brand-accent/20 rounded-lg border border-brand-accent/20">
-            <span className="text-sm font-semibold text-brand-accent">
-              {locale === 'th' ? 'เครื่องมือคำนวณภาษีครบวงจร' : 'Complete Tax Calculator Suite'}
-            </span>
+      <div className="max-w-7xl mx-auto px-6 py-8 md:py-12 space-y-10">
+        {/* Hero Section - Premium SaaS Aesthetic */}
+        <div className="relative rounded-3xl bg-gradient-to-br from-brand-light-surface to-brand-light-hover dark:from-brand-dark-surface dark:to-brand-dark-hover border border-brand-light-border dark:border-brand-dark-border shadow-dashboard overflow-hidden">
+          <div className="relative grid md:grid-cols-2 gap-8 p-8 md:p-12 min-h-[240px] md:min-h-[260px]">
+            {/* Left: Text Content */}
+            <div className="flex flex-col justify-center space-y-6">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 self-start px-4 py-2 bg-brand-accent/10 dark:bg-brand-accent/20 rounded-full border border-brand-accent/20">
+                <div className="w-2 h-2 rounded-full bg-brand-accent animate-pulse" />
+                <span className="text-sm font-semibold text-brand-accent">
+                  {locale === 'th' ? 'เครื่องมือคำนวณภาษีครบวงจร' : 'Complete Tax Calculator Suite'}
+                </span>
+              </div>
+
+              {/* Main Heading */}
+              <div>
+                <h1 className="text-4xl md:text-[42px] font-semibold text-brand-primary dark:text-brand-text-dark mb-4 tracking-tight leading-tight">
+                  {tHero('title')}
+                </h1>
+                <p className="text-base md:text-lg text-brand-text-light dark:text-brand-text-dark-light leading-relaxed opacity-90">
+                  {tHero('subtitle')}
+                </p>
+              </div>
+            </div>
+
+            {/* Right: Illustration Placeholder */}
+            <div className="hidden md:flex items-center justify-center">
+              <div className="relative w-full max-w-sm h-48 rounded-2xl border-2 border-dashed border-brand-light-border dark:border-brand-dark-border bg-brand-light-surface/50 dark:bg-brand-dark-surface/50 flex items-center justify-center backdrop-blur-sm">
+                <div className="text-center space-y-4">
+                  <MelltaxLogo
+                    className="text-brand-primary/30 dark:text-brand-accent/30 mx-auto"
+                    size={64}
+                  />
+                  <p className="text-sm text-brand-text-lighter dark:text-brand-text-dark-lighter font-medium">
+                    {locale === 'th' ? 'คำนวณภาษีอย่างชาญฉลาด' : 'Smart Tax Calculations'}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Decorative gradient orb */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-br from-brand-accent/10 to-brand-primary/10 rounded-full blur-3xl -z-10" />
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-brand-primary dark:text-brand-text-dark mb-4 tracking-tight">
-            {tHero('title')}
-          </h1>
-          <p className="text-lg md:text-xl text-brand-text-light dark:text-brand-text-dark-light max-w-3xl">
-            {tHero('subtitle')}
-          </p>
         </div>
 
         {/* Top Ad Banner */}
-        <AdBanner className="mb-8" />
+        <AdBanner />
 
         {/* Main Calculator Section */}
-        <div className="grid lg:grid-cols-2 gap-6 mb-8">
+        <div className="grid lg:grid-cols-2 gap-6">
           {/* Left: Calculator Form */}
           <WithholdingForm
             locale={locale}
@@ -92,7 +122,7 @@ export default function HomePage() {
         </div>
 
         {/* In-Content Ad */}
-        <AdInContent className="mb-8" />
+        <AdInContent />
 
         {/* Examples and FAQ */}
         <TaxScenarioExamples
@@ -105,12 +135,12 @@ export default function HomePage() {
         />
 
         {/* All Calculators - Dashboard Cards */}
-        <div className="mt-16">
+        <div>
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-brand-primary dark:text-brand-text-dark mb-2">
+            <h2 className="text-2xl md:text-3xl font-semibold text-brand-primary dark:text-brand-text-dark mb-2 tracking-tight">
               {locale === 'th' ? 'เครื่องมือคำนวณภาษีทั้งหมด' : 'All Tax Calculators'}
             </h2>
-            <p className="text-brand-text-light dark:text-brand-text-dark-light">
+            <p className="text-brand-text-light dark:text-brand-text-dark-light opacity-90">
               {locale === 'th' ? 'เลือกเครื่องมือที่ต้องการใช้งาน' : 'Choose the tool you need'}
             </p>
           </div>
@@ -227,12 +257,12 @@ export default function HomePage() {
         </div>
 
         {/* Key Features - Dashboard Style */}
-        <Card variant="dashboard" padding="xl" className="mt-20">
+        <Card variant="dashboard" padding="xl">
           <div className="text-center mb-10">
-            <h2 className="text-2xl md:text-3xl font-bold text-brand-primary dark:text-brand-text-dark mb-3">
+            <h2 className="text-2xl md:text-3xl font-semibold text-brand-primary dark:text-brand-text-dark mb-3 tracking-tight">
               {locale === 'th' ? 'ทำไมต้องใช้ MELLTAX?' : 'Why Use MELLTAX?'}
             </h2>
-            <p className="text-brand-text-light dark:text-brand-text-dark-light">
+            <p className="text-brand-text-light dark:text-brand-text-dark-light opacity-90">
               {locale === 'th' ? 'เครื่องมือที่ออกแบบมาเพื่อคุณ' : 'Tools designed for you'}
             </p>
           </div>

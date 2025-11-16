@@ -1,6 +1,7 @@
 /**
- * Language Switch component - Minimal Design
- * Clean toggle between Thai and English
+ * Language Switch component - Premium Pill Design
+ * Smooth animated toggle between Thai and English
+ * Dribbble HR dashboard aesthetic
  */
 
 'use client';
@@ -28,16 +29,16 @@ export function LanguageSwitch({ currentLocale }: LanguageSwitchProps) {
   };
 
   return (
-    <div className="flex items-center gap-0.5 rounded-md border border-neutral-200 dark:border-neutral-800 p-0.5 bg-neutral-100 dark:bg-neutral-900">
+    <div className="relative flex items-center gap-1 rounded-full border border-brand-light-border dark:border-brand-dark-border p-1 bg-brand-light-surface dark:bg-brand-dark-surface shadow-sm">
       {locales.map((locale) => (
         <button
           key={locale}
           onClick={() => switchLanguage(locale)}
           className={clsx(
-            'px-2.5 py-1 text-xs font-medium rounded transition-colors',
+            'relative z-10 px-3.5 py-1.5 text-xs font-semibold rounded-full transition-all duration-300',
             currentLocale === locale
-              ? 'bg-white text-black dark:bg-black dark:text-white shadow-sm'
-              : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white'
+              ? 'bg-brand-accent text-white shadow-md'
+              : 'text-brand-text-light dark:text-brand-text-dark-light hover:text-brand-primary dark:hover:text-brand-accent'
           )}
           aria-label={`Switch to ${locale === 'th' ? 'Thai' : 'English'}`}
         >
