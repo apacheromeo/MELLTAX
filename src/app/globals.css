@@ -2,85 +2,129 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Import fonts */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap');
+/* Import modern fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    /* Brand colors as CSS variables */
-    --brand-primary: #2C3E6F;
-    --brand-accent: #00B894;
-    --brand-light-bg: #F5F7FB;
-    --brand-dark-bg: #0B1220;
-    --brand-text-primary: #111827;
+    /* Minimal color palette */
+    --brand-primary: #1a1a1a;
+    --brand-accent: #0066FF;
+    --brand-light-bg: #ffffff;
+    --brand-dark-bg: #000000;
+    --text-primary: #1a1a1a;
+    --text-secondary: #666666;
+    --border-color: #e5e5e5;
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   body {
-    font-family: 'Inter', 'Sarabun', system-ui, -apple-system, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
     background-color: var(--brand-light-bg);
-    color: var(--brand-text-primary);
+    color: var(--text-primary);
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
   }
 
   html {
     scroll-behavior: smooth;
   }
 
-  /* Thai language specific adjustments */
+  /* Thai language - modern font */
   html[lang="th"] {
-    font-family: 'Prompt', 'Sarabun', system-ui, sans-serif;
+    font-family: 'IBM Plex Sans Thai', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    letter-spacing: -0.005em;
   }
 
-  /* English language specific adjustments */
+  /* English language - system fonts first */
   html[lang="en"] {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+  }
+
+  /* Typography scale */
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
   }
 
   /* Dark mode */
+  .dark {
+    --brand-light-bg: #000000;
+    --brand-dark-bg: #000000;
+    --text-primary: #ffffff;
+    --text-secondary: #999999;
+    --border-color: #2a2a2a;
+  }
+
   .dark body {
     background-color: var(--brand-dark-bg);
-    color: #F9FAFB;
+    color: var(--text-primary);
   }
 }
 
 @layer components {
-  /* Brand button */
-  .btn-brand {
-    @apply bg-brand-primary text-white hover:bg-primary-600 focus:ring-2 focus:ring-brand-accent;
+  /* Minimal buttons */
+  .btn {
+    @apply px-6 py-2.5 rounded-lg font-medium transition-all duration-150;
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
   }
 
-  .btn-brand-accent {
-    @apply bg-brand-accent text-white hover:bg-accent-600 focus:ring-2 focus:ring-brand-primary;
+  .btn-primary {
+    @apply bg-black text-white hover:bg-neutral-800 dark:bg-white dark:text-black dark:hover:bg-neutral-200;
+    @apply focus:ring-black dark:focus:ring-white;
   }
 
-  /* Brand card */
-  .card-brand {
-    @apply bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 rounded-lg shadow-brand;
+  .btn-secondary {
+    @apply bg-neutral-100 text-black hover:bg-neutral-200 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800;
+    @apply border border-neutral-300 dark:border-neutral-700;
   }
 
-  /* Brand link */
-  .link-brand {
-    @apply text-brand-primary hover:text-accent-600 dark:text-accent-400 dark:hover:text-accent-300;
+  .btn-minimal {
+    @apply text-neutral-700 hover:bg-neutral-100 dark:text-neutral-300 dark:hover:bg-neutral-900;
+  }
+
+  /* Minimal cards */
+  .card {
+    @apply bg-white dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 rounded-xl;
+  }
+
+  /* Minimal inputs */
+  .input {
+    @apply px-4 py-2.5 rounded-lg border border-neutral-300 dark:border-neutral-700;
+    @apply bg-white dark:bg-neutral-950 text-neutral-900 dark:text-white;
+    @apply focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-white focus:border-transparent;
+    @apply transition-all duration-150;
+  }
+
+  /* Links */
+  .link {
+    @apply text-neutral-900 dark:text-white underline-offset-4 hover:underline;
   }
 }
 
 @layer utilities {
-  /* Utility for smooth transitions */
+  /* Smooth transitions */
   .transition-base {
-    @apply transition-all duration-200 ease-in-out;
+    @apply transition-all duration-150 ease-out;
   }
 
-  /* Number formatting for Thai */
-  .thai-number {
+  /* Tabular numbers */
+  .tabular-nums {
     font-variant-numeric: tabular-nums;
   }
 
   /* Responsive container */
   .container-responsive {
-    @apply container mx-auto px-4 sm:px-6 lg:px-8;
+    @apply container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl;
   }
 
-  /* Hide scrollbar but keep functionality */
+  /* Hide scrollbar */
   .scrollbar-hide {
     -ms-overflow-style: none;
     scrollbar-width: none;
@@ -90,9 +134,13 @@
     display: none;
   }
 
-  /* Brand gradient text */
-  .text-gradient-brand {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-primary to-brand-accent;
+  /* Subtle shadow */
+  .shadow-subtle {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .shadow-subtle {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   }
 }
 

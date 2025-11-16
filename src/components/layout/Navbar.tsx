@@ -1,12 +1,11 @@
 /**
- * Navbar component
- * Main navigation bar for the app
+ * Navbar component - Minimal Design
+ * Clean navigation bar with minimal styling
  */
 
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { clsx } from 'clsx';
 import { LanguageSwitch } from './LanguageSwitch';
@@ -29,10 +28,10 @@ export function Navbar({ locale, translations }: NavbarProps) {
   const pathname = usePathname();
 
   const navItems = [
-    { label: translations.calculator, href: '/', exact: true, icon: '🧮' },
-    { label: translations.planner, href: '/planner', exact: false, icon: '📊' },
-    { label: translations.profit, href: '/profit', exact: false, icon: '💰' },
-    { label: translations.about, href: '/about', exact: false, icon: 'ℹ️' },
+    { label: translations.calculator, href: '/', exact: true },
+    { label: translations.planner, href: '/planner', exact: false },
+    { label: translations.profit, href: '/profit', exact: false },
+    { label: translations.about, href: '/about', exact: false },
   ];
 
   const isActive = (href: string, exact: boolean) => {
@@ -43,46 +42,31 @@ export function Navbar({ locale, translations }: NavbarProps) {
   };
 
   return (
-    <nav className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-neutral-900/80 border-b border-neutral-200/50 dark:border-neutral-700/50 shadow-lg shadow-neutral-200/50 dark:shadow-neutral-900/50">
+    <nav className="border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-black">
       <div className="container-responsive">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-14 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="relative h-10 w-10 transition-transform group-hover:scale-105">
-              <Image
-                src="/logo-melltax-icon-80.svg"
-                alt="MELLTAX"
-                width={40}
-                height={40}
-                className="object-contain"
-              />
-            </div>
-            <div className="hidden sm:flex flex-col">
-              <span className="text-lg font-bold leading-none">
-                <span className="text-brand-primary dark:text-white">MELL</span>
-                <span className="text-brand-primary dark:text-white font-extrabold">TAX</span>
-              </span>
-              <span className="text-[10px] text-accent-600 dark:text-accent-400 font-medium tracking-wide">
-                Tax Calculator
-              </span>
-            </div>
+          <Link
+            href="/"
+            className="text-lg font-semibold text-neutral-900 dark:text-white hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors"
+          >
+            MELLTAX
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-1">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={clsx(
-                  'px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 flex items-center gap-2',
+                  'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
                   isActive(item.href, item.exact)
-                    ? 'bg-gradient-to-r from-brand-primary to-accent-600 text-white shadow-lg shadow-brand-primary/30 scale-105'
-                    : 'text-neutral-700 dark:text-neutral-300 hover:bg-gradient-to-r hover:from-neutral-100 hover:to-neutral-50 dark:hover:from-neutral-800 dark:hover:to-neutral-700 hover:shadow-md hover:scale-105'
+                    ? 'bg-neutral-900 text-white dark:bg-white dark:text-black'
+                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900'
                 )}
               >
-                <span className="text-base">{item.icon}</span>
-                <span>{item.label}</span>
+                {item.label}
               </Link>
             ))}
           </div>
@@ -95,20 +79,19 @@ export function Navbar({ locale, translations }: NavbarProps) {
         </div>
 
         {/* Mobile Navigation */}
-        <div className="md:hidden pb-3 flex gap-2 overflow-x-auto scrollbar-hide">
+        <div className="md:hidden pb-2 flex gap-1 overflow-x-auto scrollbar-hide">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={clsx(
-                'px-4 py-2.5 rounded-xl text-sm font-semibold transition-all whitespace-nowrap flex items-center gap-2',
+                'px-3 py-1.5 rounded-md text-sm font-medium whitespace-nowrap transition-colors',
                 isActive(item.href, item.exact)
-                  ? 'bg-gradient-to-r from-brand-primary to-accent-600 text-white shadow-lg'
-                  : 'text-neutral-700 dark:text-neutral-300 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:shadow-md'
+                  ? 'bg-neutral-900 text-white dark:bg-white dark:text-black'
+                  : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-900'
               )}
             >
-              <span>{item.icon}</span>
-              <span>{item.label}</span>
+              {item.label}
             </Link>
           ))}
         </div>
