@@ -42,7 +42,7 @@ export default async function ProfitPage({
 
         {/* AdSense Banner */}
         <div className="mb-8">
-          <AdBanner slot="profit-top" />
+          <AdBanner slotId="profit-top" />
         </div>
 
         {/* Calculator Form */}

@@ -1,57 +1,83 @@
 /**
- * AdInContent component
- * In-content ad (responsive)
+ * AdInContent Component
+ * Phase 7: In-content ad placement (between sections)
+ * 
+ * Features:
+ * - CLS-safe with min-height placeholder (160px)
+ * - Soft border and muted background
+ * - Dark mode support
+ * - Non-intrusive design
  */
 
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface AdInContentProps {
-  slot?: string;
+  slotId?: string;
   className?: string;
 }
 
-export function AdInContent({
-  slot = '0987654321',
-  className = '',
-}: AdInContentProps) {
-  const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || 'ca-pub-XXXXXXXXXXXXXXXX';
+export function AdInContent({ slotId = '0000000000', className = '' }: AdInContentProps) {
+  const t = useTranslations('ads');
+  const adRef = useRef<HTMLDivElement>(null);
+  const [adError, setAdError] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
+    if (!clientId) {
+      setAdError(true);
+      return;
+    }
+
     try {
-      if (typeof window !== 'undefined') {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      const adsbygoogle = (window as any).adsbygoogle || [];
+      if (adRef.current && adRef.current.querySelector('.adsbygoogle')) {
+        adsbygoogle.push({});
       }
     } catch (error) {
       console.error('AdSense error:', error);
+      setAdError(true);
     }
   }, []);
 
-  // Don't show ads in development mode (optional)
-  if (process.env.NODE_ENV === 'development') {
-    return (
-      <div className={`bg-gray-100 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-8 text-center ${className}`}>
-        <p className="text-gray-500 dark:text-gray-400 text-sm">
-          AdSense In-Content Placeholder (336x280)
-        </p>
-        <p className="text-gray-400 dark:text-gray-500 text-xs mt-2">
-          Ads will appear in production
-        </p>
-      </div>
-    );
-  }
-
   return (
-    <div className={`my-6 ${className}`}>
-      <ins
-        className="adsbygoogle"
-        style={{ display: 'block' }}
-        data-ad-client={clientId}
-        data-ad-slot={slot}
-        data-ad-format="auto"
-        data-full-width-responsive="true"
-      />
+    <div
+      className={`w-full flex justify-center py-8 ${className}`}
+      ref={adRef}
+    >
+      <div className="w-full max-w-4xl">
+        {/* Ad label */}
+        <div className="text-xs text-brand-text-lighter dark:text-brand-text-dark-lighter text-center mb-2">
+          {t('sponsored')}
+        </div>
+
+        {/* Ad container with CLS prevention */}
+        <div
+          className="rounded-xl bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 overflow-hidden"
+          style={{ minHeight: '160px' }}
+        >
+          {!adError ? (
+            <ins
+              className="adsbygoogle"
+              style={{ display: 'block', textAlign: 'center' }}
+              data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}
+              data-ad-slot={slotId}
+              data-ad-format="auto"
+              data-full-width-responsive="true"
+            />
+          ) : (
+            <div className="flex items-center justify-center h-full min-h-[160px]">
+              <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-8">
+                {t('blocked')}
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

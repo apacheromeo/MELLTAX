@@ -16,6 +16,7 @@ import { PlannerSummaryCard } from '@/components/planner/PlannerSummaryCard';
 import { PlannerChart } from '@/components/planner/PlannerChart';
 import { AdBanner } from '@/components/ads/AdBanner';
 import { AdInContent } from '@/components/ads/AdInContent';
+import { AdFooter } from '@/components/ads/AdFooter';
 import { Card } from '@/components/common/Card';
 import { PlannerItem } from '@/types/planner';
 import { Locale } from '@/lib/i18n/config';
@@ -343,6 +344,9 @@ export default function PlannerPage() {
             </p>
           </Card>
         )}
+
+        {/* Footer Ad */}
+        <AdFooter />
       </div>
     </div>
   );

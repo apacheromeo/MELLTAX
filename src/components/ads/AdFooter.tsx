@@ -1,93 +1,82 @@
 /**
- * AdFooter component
- * Footer ad (sticky bottom on mobile)
+ * AdFooter Component
+ * Phase 7: Subtle footer ad (above site footer)
+ * 
+ * Features:
+ * - CLS-safe with min-height placeholder
+ * - Subtle, non-intrusive design
+ * - Center-aligned
+ * - Dark mode support
  */
 
 'use client';
 
-import { useEffect, useState } from 'react';
-import { clsx } from 'clsx';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface AdFooterProps {
-  slot?: string;
-  sticky?: boolean;
+  slotId?: string;
   className?: string;
 }
 
-export function AdFooter({
-  slot = '1122334455',
-  sticky = true,
-  className = '',
-}: AdFooterProps) {
-  const [isVisible, setIsVisible] = useState(true);
-  const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || 'ca-pub-XXXXXXXXXXXXXXXX';
+export function AdFooter({ slotId = '0000000000', className = '' }: AdFooterProps) {
+  const t = useTranslations('ads');
+  const adRef = useRef<HTMLDivElement>(null);
+  const [adError, setAdError] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
+    if (!clientId) {
+      setAdError(true);
+      return;
+    }
+
     try {
-      if (typeof window !== 'undefined') {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      const adsbygoogle = (window as any).adsbygoogle || [];
+      if (adRef.current && adRef.current.querySelector('.adsbygoogle')) {
+        adsbygoogle.push({});
       }
     } catch (error) {
       console.error('AdSense error:', error);
+      setAdError(true);
     }
   }, []);
 
-  if (!isVisible) return null;
-
-  // Don't show ads in development mode (optional)
-  if (process.env.NODE_ENV === 'development') {
-    return (
-      <div
-        className={clsx(
-          'bg-gray-100 dark:bg-gray-800 border-t-2 border-dashed border-gray-300 dark:border-gray-700 p-4',
-          sticky && 'md:hidden fixed bottom-0 left-0 right-0 z-40',
-          className
-        )}
-      >
-        <div className="container-responsive flex items-center justify-between">
-          <p className="text-gray-500 dark:text-gray-400 text-xs">
-            AdSense Footer Placeholder
-          </p>
-          <button
-            onClick={() => setIsVisible(false)}
-            className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-            aria-label="Close ad"
-          >
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div
-      className={clsx(
-        'bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800',
-        sticky && 'md:hidden fixed bottom-0 left-0 right-0 z-40',
-        className
-      )}
+      className={`w-full flex justify-center py-10 ${className}`}
+      ref={adRef}
     >
-      <div className="container-responsive py-2 flex items-center justify-between gap-2">
-        <ins
-          className="adsbygoogle flex-1"
-          style={{ display: 'block' }}
-          data-ad-client={clientId}
-          data-ad-slot={slot}
-          data-ad-format="auto"
-          data-full-width-responsive="true"
-        />
-        <button
-          onClick={() => setIsVisible(false)}
-          className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 p-1"
-          aria-label="Close ad"
+      <div className="w-full max-w-3xl">
+        {/* Ad label */}
+        <div className="text-xs text-brand-text-lighter dark:text-brand-text-dark-lighter text-center mb-2">
+          {t('sponsored')}
+        </div>
+
+        {/* Ad container with CLS prevention */}
+        <div
+          className="rounded-lg bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 overflow-hidden"
+          style={{ minHeight: '100px' }}
         >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
+          {!adError ? (
+            <ins
+              className="adsbygoogle"
+              style={{ display: 'block', textAlign: 'center' }}
+              data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}
+              data-ad-slot={slotId}
+              data-ad-format="auto"
+              data-full-width-responsive="true"
+            />
+          ) : (
+            <div className="flex items-center justify-center h-full min-h-[100px]">
+              <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-6">
+                {t('blocked')}
+              </p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

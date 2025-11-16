@@ -14,6 +14,7 @@ import { WithholdingResultCard } from '@/components/calculator/WithholdingResult
 import { TaxScenarioExamples } from '@/components/calculator/TaxScenarioExamples';
 import { AdBanner } from '@/components/ads/AdBanner';
 import { AdInContent } from '@/components/ads/AdInContent';
+import { AdFooter } from '@/components/ads/AdFooter';
 import { Card } from '@/components/common/Card';
 import { MelltaxLogo } from '@/components/icons';
 import { WithholdingResult, WithholdingInput } from '@/types/tax';
@@ -326,6 +327,9 @@ export default function HomePage() {
             </div>
           </div>
         </Card>
+
+        {/* Footer Ad */}
+        <AdFooter />
       </div>
     </div>
   );

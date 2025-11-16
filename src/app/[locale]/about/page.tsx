@@ -11,6 +11,7 @@ import { useParams } from 'next/navigation';
 import { Card } from '@/components/common/Card';
 import { AdBanner } from '@/components/ads/AdBanner';
 import { AdInContent } from '@/components/ads/AdInContent';
+import { AdFooter } from '@/components/ads/AdFooter';
 import { InfoIcon } from '@/components/icons';
 import { Locale } from '@/lib/i18n/config';
 
@@ -261,6 +262,9 @@ export default function AboutPage() {
             </div>
           </div>
         </Card>
+
+        {/* Footer Ad */}
+        <AdFooter />
       </div>
     </div>
   );

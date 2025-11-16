@@ -1,63 +1,88 @@
 /**
- * AdBanner component
- * Top banner ad (horizontal)
+ * AdBanner Component
+ * Phase 7: Wide horizontal banner ad (top of page)
+ * 
+ * Features:
+ * - CLS-safe with min-height placeholder
+ * - Responsive AdSense unit
+ * - Dark mode container support
+ * - AdBlock fallback
  */
 
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface AdBannerProps {
-  slot?: string;
-  format?: 'auto' | 'fluid' | 'rectangle';
-  responsive?: boolean;
+  slotId?: string;
   className?: string;
 }
 
-export function AdBanner({
-  slot = '1234567890',
-  format = 'auto',
-  responsive = true,
-  className = '',
-}: AdBannerProps) {
-  const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || 'ca-pub-XXXXXXXXXXXXXXXX';
+export function AdBanner({ slotId = '0000000000', className = '' }: AdBannerProps) {
+  const t = useTranslations('ads');
+  const adRef = useRef<HTMLDivElement>(null);
+  const [adError, setAdError] = useState(false);
 
   useEffect(() => {
+    // Only run on client
+    if (typeof window === 'undefined') return;
+
+    // Check if AdSense is configured
+    const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
+    if (!clientId) {
+      setAdError(true);
+      return;
+    }
+
     try {
-      if (typeof window !== 'undefined') {
-        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      // Initialize AdSense ad
+      const adsbygoogle = (window as any).adsbygoogle || [];
+      
+      // Push ad request
+      if (adRef.current && adRef.current.querySelector('.adsbygoogle')) {
+        adsbygoogle.push({});
       }
     } catch (error) {
       console.error('AdSense error:', error);
+      setAdError(true);
     }
   }, []);
 
-  // Don't show ads in development mode (optional)
-  if (process.env.NODE_ENV === 'development') {
-    return (
-      <div className={`bg-gray-100 dark:bg-gray-800 border-2 border-dashed border-gray-300 dark:border-gray-700 rounded-lg p-8 text-center min-h-[90px] flex items-center justify-center ${className}`}>
-        <div>
-          <p className="text-gray-500 dark:text-gray-400 text-sm">
-            AdSense Banner Placeholder (728x90)
-          </p>
-          <p className="text-gray-400 dark:text-gray-500 text-xs mt-2">
-            Ads will appear in production
-          </p>
+  return (
+    <div
+      className={`w-full flex justify-center py-6 ${className}`}
+      ref={adRef}
+    >
+      <div className="w-full max-w-5xl">
+        {/* Ad label */}
+        <div className="text-xs text-brand-text-lighter dark:text-brand-text-dark-lighter text-center mb-2">
+          {t('sponsored')}
+        </div>
+
+        {/* Ad container with CLS prevention */}
+        <div
+          className="rounded-xl bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 overflow-hidden"
+          style={{ minHeight: '120px' }}
+        >
+          {!adError ? (
+            <ins
+              className="adsbygoogle"
+              style={{ display: 'block' }}
+              data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}
+              data-ad-slot={slotId}
+              data-ad-format="auto"
+              data-full-width-responsive="true"
+            />
+          ) : (
+            <div className="flex items-center justify-center h-full min-h-[120px]">
+              <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-8">
+                {t('blocked')}
+              </p>
+            </div>
+          )}
         </div>
       </div>
-    );
-  }
-
-  return (
-    <div className={`my-4 min-h-[90px] ${className}`}>
-      <ins
-        className="adsbygoogle"
-        style={{ display: 'block', minHeight: '90px' }}
-        data-ad-client={clientId}
-        data-ad-slot={slot}
-        data-ad-format={format}
-        data-full-width-responsive={responsive.toString()}
-      />
     </div>
   );
 }

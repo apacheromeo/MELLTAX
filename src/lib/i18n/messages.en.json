@@ -349,5 +349,11 @@
     "profitDescription": "Calculate optimal selling price to achieve your target profit margin",
     "aboutTitle": "About - MELLTAX",
     "aboutDescription": "About MELLTAX - Thai withholding tax calculator for everyone"
+  },
+
+  "ads": {
+    "sponsored": "Sponsored",
+    "loading": "Loading ads...",
+    "blocked": "Sponsored content could not load"
   }
 }
