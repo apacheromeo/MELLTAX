@@ -78,7 +78,7 @@ export default async function LocaleLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
       </head>
-      <body className="min-h-screen flex flex-col bg-brand-light-bg dark:bg-brand-dark-bg">
+      <body className="min-h-screen flex flex-col bg-brand-light dark:bg-brand-dark">
         <NextIntlClientProvider messages={messages}>
           <Navbar
             locale={locale as Locale}

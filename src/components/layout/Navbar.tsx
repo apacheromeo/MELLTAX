@@ -1,6 +1,6 @@
 /**
- * Navbar component - Minimal Design
- * Clean navigation bar with minimal styling
+ * Navbar component - Dashboard Design
+ * Professional navigation bar with HR dashboard aesthetic
  */
 
 'use client';
@@ -50,28 +50,28 @@ export function Navbar({ locale, translations }: NavbarProps) {
   };
 
   return (
-    <nav className="border-b border-neutral-200 dark:border-neutral-800 bg-white dark:bg-black">
+    <nav className="border-b border-brand-light-border dark:border-brand-dark-border bg-brand-light-surface dark:bg-brand-dark-surface shadow-sm">
       <div className="container-responsive">
-        <div className="flex h-14 items-center justify-between">
+        <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link
             href="/"
-            className="text-lg font-semibold text-neutral-900 dark:text-white hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors"
+            className="text-xl font-bold text-brand-primary dark:text-brand-text-dark hover:text-brand-primary-600 dark:hover:text-brand-text-dark-light transition-colors"
           >
             MELLTAX
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden lg:flex items-center gap-1">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={clsx(
-                  'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+                  'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200',
                   isActive(item.href, item.exact)
-                    ? 'bg-neutral-900 text-white dark:bg-white dark:text-black'
-                    : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900'
+                    ? 'bg-brand-primary text-white shadow-sm'
+                    : 'text-brand-text-light dark:text-brand-text-dark-light hover:text-brand-primary dark:hover:text-brand-accent hover:bg-brand-light-hover dark:hover:bg-brand-dark-hover'
                 )}
               >
                 {item.label}
@@ -80,23 +80,23 @@ export function Navbar({ locale, translations }: NavbarProps) {
           </div>
 
           {/* Right side controls */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <LanguageSwitch currentLocale={locale} />
             <ThemeToggle />
           </div>
         </div>
 
         {/* Mobile Navigation */}
-        <div className="md:hidden pb-2 flex gap-1 overflow-x-auto scrollbar-hide">
+        <div className="lg:hidden pb-3 flex gap-2 overflow-x-auto scrollbar-hide">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={clsx(
-                'px-3 py-1.5 rounded-md text-sm font-medium whitespace-nowrap transition-colors',
+                'px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap transition-all duration-200',
                 isActive(item.href, item.exact)
-                  ? 'bg-neutral-900 text-white dark:bg-white dark:text-black'
-                  : 'text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-900'
+                  ? 'bg-brand-primary text-white shadow-sm'
+                  : 'text-brand-text-light dark:text-brand-text-dark-light hover:bg-brand-light-hover dark:hover:bg-brand-dark-hover'
               )}
             >
               {item.label}

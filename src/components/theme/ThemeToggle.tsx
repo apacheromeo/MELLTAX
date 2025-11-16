@@ -15,10 +15,11 @@ export function ThemeToggle() {
     <button
       onClick={toggleTheme}
       className={clsx(
-        'relative inline-flex h-9 w-9 items-center justify-center rounded-lg',
-        'border border-gray-300 dark:border-gray-600',
-        'hover:bg-gray-100 dark:hover:bg-gray-800',
-        'transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2'
+        'relative inline-flex h-10 w-10 items-center justify-center rounded-lg',
+        'bg-brand-light-surface dark:bg-brand-dark-surface',
+        'border border-brand-light-border dark:border-brand-dark-border',
+        'hover:bg-brand-light-hover dark:hover:bg-brand-dark-hover',
+        'transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-brand-primary focus:ring-offset-2'
       )}
       aria-label="Toggle theme"
       title={resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
