@@ -16,7 +16,7 @@ import { AdBanner } from '@/components/ads/AdBanner';
 import { AdInContent } from '@/components/ads/AdInContent';
 import { Card } from '@/components/common/Card';
 import { MelltaxLogo } from '@/components/icons';
-import { TaxCalculationResult } from '@/types/tax';
+import { WithholdingResult, WithholdingInput } from '@/types/tax';
 import { Locale } from '@/lib/i18n/config';
 
 export default function HomePage() {
@@ -27,10 +27,12 @@ export default function HomePage() {
   const tHero = useTranslations('hero');
   const tCalc = useTranslations('calculator');
 
-  const [result, setResult] = useState<TaxCalculationResult | null>(null);
+  const [result, setResult] = useState<WithholdingResult | undefined>(undefined);
+  const [lastInput, setLastInput] = useState<WithholdingInput | undefined>(undefined);
 
-  const handleCalculate = (calculationResult: TaxCalculationResult) => {
+  const handleCalculate = (calculationResult: WithholdingResult, input: WithholdingInput) => {
     setResult(calculationResult);
+    setLastInput(input);
   };
 
   return (
@@ -96,8 +98,10 @@ export default function HomePage() {
               grossToNet: tCalc('grossToNet'),
               netToGross: tCalc('netToGross'),
               amount: tCalc('amount'),
+              grossAmount: tCalc('grossAmount'),
+              netAmount: tCalc('netAmount'),
               enterAmount: tCalc('enterAmount'),
-              customRate: tCalc('customRate'),
+              taxRate: tCalc('taxRate'),
               calculate: t('calculate'),
               clear: t('clear'),
             }}
@@ -107,16 +111,18 @@ export default function HomePage() {
           {/* Right: Result Card */}
           <WithholdingResultCard
             result={result}
+            input={lastInput}
             locale={locale}
             translations={{
               result: tCalc('result'),
               withholdingTax: tCalc('withholdingTax'),
               grossAmount: tCalc('grossAmount'),
               netAmount: tCalc('netAmount'),
-              effectiveRate: tCalc('effectiveRate'),
+              taxRate: tCalc('taxRate'),
               print: t('print'),
               save: t('save'),
-              loginToSave: tCalc('loginToSave'),
+              emptyTitle: tCalc('emptyTitle'),
+              emptySubtitle: tCalc('emptySubtitle'),
             }}
           />
         </div>
@@ -129,8 +135,14 @@ export default function HomePage() {
           locale={locale}
           translations={{
             exampleTitle: tCalc('exampleTitle'),
-            exampleDesc1: tCalc('exampleDesc1'),
-            exampleDesc2: tCalc('exampleDesc2'),
+            example1Title: tCalc('example1Title'),
+            example1Desc: tCalc('example1Desc'),
+            example2Title: tCalc('example2Title'),
+            example2Desc: tCalc('example2Desc'),
+            example3Title: tCalc('example3Title'),
+            example3Desc: tCalc('example3Desc'),
+            example4Title: tCalc('example4Title'),
+            example4Desc: tCalc('example4Desc'),
           }}
         />
 

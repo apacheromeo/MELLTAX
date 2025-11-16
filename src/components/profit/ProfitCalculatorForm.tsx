@@ -8,7 +8,7 @@
 import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { TAX_RATES } from '@/lib/tax/withholdingRates';
-import { PaymentCategory } from '@/types/tax';
+import { PaymentCategoryLegacy } from '@/types/tax';
 
 interface ProfitResult {
   costPrice: number;
@@ -17,7 +17,7 @@ interface ProfitResult {
   profitAmount: number;
   markup: number;
   withTax: boolean;
-  taxCategory?: PaymentCategory;
+  taxCategory?: PaymentCategoryLegacy;
   taxRate?: number;
   taxAmount?: number;
   finalReceived?: number;
@@ -31,7 +31,7 @@ export function ProfitCalculatorForm() {
   const [costPrice, setCostPrice] = useState<string>('');
   const [profitMargin, setProfitMargin] = useState<string>('30');
   const [withTax, setWithTax] = useState<boolean>(false);
-  const [taxCategory, setTaxCategory] = useState<PaymentCategory>('service_general');
+  const [taxCategory, setTaxCategory] = useState<PaymentCategoryLegacy>('service_general');
   const [result, setResult] = useState<ProfitResult | null>(null);
 
   const handleCalculate = () => {
@@ -161,7 +161,7 @@ export function ProfitCalculatorForm() {
               <select
                 id="taxCategory"
                 value={taxCategory}
-                onChange={(e) => setTaxCategory(e.target.value as PaymentCategory)}
+                onChange={(e) => setTaxCategory(e.target.value as PaymentCategoryLegacy)}
                 className="w-full px-4 py-3 rounded-xl border-2 border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:ring-2 focus:ring-brand-primary focus:border-transparent transition-all"
               >
                 {Object.entries(TAX_RATES).map(([key, config]) => (

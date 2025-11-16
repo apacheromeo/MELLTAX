@@ -58,10 +58,20 @@
     "effectiveRate": "Effective Rate",
     "saveCalculation": "Save Calculation",
     "loginToSave": "Login to save",
+    "emptyTitle": "Ready to Calculate",
+    "emptySubtitle": "Enter payment details and click Calculate to see results",
     "example": "Calculation Examples",
     "exampleTitle": "Example Scenarios",
     "exampleDesc1": "Gross Amount Case: Company pays 10,000 Baht, you must withhold 3% = 300 Baht, you receive net 9,700 Baht",
-    "exampleDesc2": "Net Amount Case: Want to receive net 10,000 Baht at 3% rate, you must invoice 10,309.28 Baht to withhold 309.28 Baht and receive the desired net amount"
+    "exampleDesc2": "Net Amount Case: Want to receive net 10,000 Baht at 3% rate, you must invoice 10,309.28 Baht to withhold 309.28 Baht and receive the desired net amount",
+    "example1Title": "Freelance Designer",
+    "example1Desc": "Design work ฿10,000, 3% tax = ฿300 tax, net ฿9,700",
+    "example2Title": "Marketing Agency",
+    "example2Desc": "Advertising ฿50,000, 2% tax = ฿1,000 tax, net ฿49,000",
+    "example3Title": "Landlord",
+    "example3Desc": "Rental ฿20,000, 5% tax = ฿1,000 tax, net ฿19,000",
+    "example4Title": "Legal Consultant",
+    "example4Desc": "Consulting ฿15,000, 3% tax = ฿450 tax, net ฿14,550"
   },
 
   "planner": {

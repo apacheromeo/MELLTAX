@@ -2,13 +2,13 @@
  * Tax planner type definitions for MELLTAX
  */
 
-import { PaymentCategory } from './tax';
+import { PaymentCategoryLegacy } from './tax';
 
 // A single invoice in the tax planner
 export interface Invoice {
   id: string;
   date: string; // ISO date string
-  category: PaymentCategory;
+  category: PaymentCategoryLegacy;
   grossAmount: number;
   taxRate: number; // percentage
   taxAmount: number;

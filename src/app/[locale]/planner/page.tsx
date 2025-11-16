@@ -18,8 +18,8 @@ import { PlannerChart } from '@/components/planner/PlannerChart';
 import { AdBanner } from '@/components/ads/AdBanner';
 import { AdInContent } from '@/components/ads/AdInContent';
 import { Invoice, PlannerSummary, ChartDataPoint } from '@/types/planner';
-import { PaymentCategory } from '@/types/tax';
-import { getAllCategories } from '@/lib/tax/withholdingRates';
+import { PaymentCategoryLegacy } from '@/types/tax';
+import { TAX_RATES } from '@/lib/tax/withholdingRates';
 import { Locale } from '@/lib/i18n/config';
 
 export default function PlannerPage() {
@@ -32,14 +32,13 @@ export default function PlannerPage() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
   const [newInvoice, setNewInvoice] = useState({
     date: new Date().toISOString().split('T')[0],
-    category: 'service_general' as PaymentCategory,
+    category: 'service_general' as PaymentCategoryLegacy,
     grossAmount: '',
     taxRate: '3',
   });
 
-  const categories = getAllCategories();
-  const categoryOptions = categories.map((cat) => ({
-    value: cat.category,
+  const categoryOptions = Object.entries(TAX_RATES).map(([key, cat]) => ({
+    value: key,
     label: locale === 'th' ? cat.nameTh : cat.nameEn,
   }));
 
@@ -117,8 +116,8 @@ export default function PlannerPage() {
   };
 
   // Auto-update tax rate when category changes
-  const handleCategoryChange = (category: PaymentCategory) => {
-    const categoryConfig = categories.find((c) => c.category === category);
+  const handleCategoryChange = (category: PaymentCategoryLegacy) => {
+    const categoryConfig = TAX_RATES[category];
     if (categoryConfig) {
       setNewInvoice({
         ...newInvoice,
@@ -167,7 +166,7 @@ export default function PlannerPage() {
             label={tPlanner('category')}
             value={newInvoice.category}
             onChange={(e) =>
-              handleCategoryChange(e.target.value as PaymentCategory)
+              handleCategoryChange(e.target.value as PaymentCategoryLegacy)
             }
             options={categoryOptions}
           />
