@@ -1,10 +1,28 @@
 /**
  * Tax planner type definitions for MELLTAX
+ * Phase 4: Premium tax planner with multiple invoices
  */
 
 import { PaymentCategoryLegacy } from './tax';
 
-// A single invoice in the tax planner
+// Phase 4: A single planner item (invoice/payment)
+export interface PlannerItem {
+  id: string;
+  invoiceDate: string; // ISO date string
+  categoryId: string; // Payment category ID
+  description?: string;
+  gross: number;
+  taxRate: number; // percentage
+  tax: number;
+  net: number;
+}
+
+// Phase 4: Planner state
+export interface PlannerState {
+  items: PlannerItem[];
+}
+
+// Legacy: Keep for backward compatibility
 export interface Invoice {
   id: string;
   date: string; // ISO date string
