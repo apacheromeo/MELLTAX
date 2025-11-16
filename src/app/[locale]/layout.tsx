@@ -87,6 +87,10 @@ export default async function LocaleLayout({
               calculator: t('calculator'),
               planner: t('planner'),
               profit: t('profit'),
+              incomeTax: t('incomeTax'),
+              vat: t('vat'),
+              socialSecurity: t('socialSecurity'),
+              dashboard: t('dashboard'),
               about: t('about'),
               login: t('login'),
             }}

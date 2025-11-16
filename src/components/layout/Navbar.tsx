@@ -19,6 +19,10 @@ interface NavbarProps {
     calculator: string;
     planner: string;
     profit: string;
+    incomeTax: string;
+    vat: string;
+    socialSecurity: string;
+    dashboard: string;
     about: string;
     login: string;
   };
@@ -28,7 +32,11 @@ export function Navbar({ locale, translations }: NavbarProps) {
   const pathname = usePathname();
 
   const navItems = [
+    { label: translations.dashboard, href: '/dashboard', exact: false },
     { label: translations.calculator, href: '/', exact: true },
+    { label: translations.incomeTax, href: '/income-tax', exact: false },
+    { label: translations.vat, href: '/vat', exact: false },
+    { label: translations.socialSecurity, href: '/social-security', exact: false },
     { label: translations.planner, href: '/planner', exact: false },
     { label: translations.profit, href: '/profit', exact: false },
     { label: translations.about, href: '/about', exact: false },
