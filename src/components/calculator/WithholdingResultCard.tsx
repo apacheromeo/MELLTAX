@@ -2,14 +2,18 @@
  * WithholdingResultCard component
  * Displays the result of withholding tax calculation
  * Phase 3: Premium dashboard design with empty state
+ * Phase 6: Added Save to Supabase functionality
  */
 
 'use client';
 
+import { useState } from 'react';
 import { Card, CardBody } from '@/components/common/Card';
 import { CalculatorIcon } from '@/components/icons';
 import { WithholdingResult, WithholdingInput } from '@/types/tax';
 import { getCategoryById } from '@/lib/tax/withholdingRates';
+import { useSupabaseUser } from '@/hooks/useSupabaseUser';
+import { saveCalculationToSupabase } from '@/lib/tax/saveCalculation';
 
 interface WithholdingResultCardProps {
   result?: WithholdingResult;
@@ -25,6 +29,9 @@ interface WithholdingResultCardProps {
     save: string;
     emptyTitle: string;
     emptySubtitle: string;
+    saveSuccess: string;
+    saveError: string;
+    saveRequireLogin: string;
   };
 }
 
@@ -34,6 +41,10 @@ export function WithholdingResultCard({
   locale,
   translations,
 }: WithholdingResultCardProps) {
+  const { user } = useSupabaseUser();
+  const [saving, setSaving] = useState(false);
+  const [saveMessage, setSaveMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
   const formatCurrency = (amount: number): string => {
     return new Intl.NumberFormat(locale === 'th' ? 'th-TH' : 'en-US', {
       style: 'currency',
@@ -47,8 +58,39 @@ export function WithholdingResultCard({
     window.print();
   };
 
-  const handleSave = () => {
-    alert(locale === 'th' ? 'กรุณาเข้าสู่ระบบเพื่อบันทึกการคำนวณ' : 'Please login to save calculations');
+  const handleSave = async () => {
+    // Check if user is logged in
+    if (!user) {
+      setSaveMessage({ type: 'error', text: translations.saveRequireLogin });
+      setTimeout(() => setSaveMessage(null), 3000);
+      return;
+    }
+
+    // Check if we have result and input
+    if (!result || !input) {
+      return;
+    }
+
+    setSaving(true);
+    setSaveMessage(null);
+
+    try {
+      const saveResult = await saveCalculationToSupabase(input, result);
+
+      if (saveResult.success) {
+        setSaveMessage({ type: 'success', text: translations.saveSuccess });
+        setTimeout(() => setSaveMessage(null), 3000);
+      } else {
+        setSaveMessage({ type: 'error', text: translations.saveError });
+        setTimeout(() => setSaveMessage(null), 3000);
+      }
+    } catch (error) {
+      console.error('Error saving calculation:', error);
+      setSaveMessage({ type: 'error', text: translations.saveError });
+      setTimeout(() => setSaveMessage(null), 3000);
+    } finally {
+      setSaving(false);
+    }
   };
 
   // Empty state
@@ -150,6 +192,23 @@ export function WithholdingResultCard({
           </div>
         )}
 
+        {/* Save Message Toast */}
+        {saveMessage && (
+          <div className={`rounded-xl p-4 ${
+            saveMessage.type === 'success'
+              ? 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800'
+              : 'bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800'
+          }`}>
+            <p className={`text-sm font-medium ${
+              saveMessage.type === 'success'
+                ? 'text-green-800 dark:text-green-200'
+                : 'text-amber-800 dark:text-amber-200'
+            }`}>
+              {saveMessage.type === 'success' ? '✓' : 'ⓘ'} {saveMessage.text}
+            </p>
+          </div>
+        )}
+
         {/* Action Buttons */}
         <div className="flex gap-3 pt-2 print:hidden">
           <button
@@ -162,9 +221,10 @@ export function WithholdingResultCard({
           <button
             type="button"
             onClick={handleSave}
-            className="flex-1 px-4 py-2.5 bg-brand-light-hover dark:bg-brand-dark-hover border-2 border-brand-light-border dark:border-brand-dark-border text-brand-text-light dark:text-brand-text-dark-light font-medium rounded-xl hover:border-brand-primary dark:hover:border-brand-accent hover:text-brand-primary dark:hover:text-brand-accent transition-all duration-200"
+            disabled={saving}
+            className="flex-1 px-4 py-2.5 bg-brand-accent dark:bg-brand-accent border-2 border-brand-accent text-white font-medium rounded-xl hover:bg-brand-accent/90 dark:hover:bg-brand-accent/90 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {translations.save}
+            {saving ? (locale === 'th' ? 'กำลังบันทึก...' : 'Saving...') : translations.save}
           </button>
         </div>
       </div>

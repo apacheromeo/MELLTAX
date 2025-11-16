@@ -123,6 +123,9 @@ export default function HomePage() {
               save: t('save'),
               emptyTitle: tCalc('emptyTitle'),
               emptySubtitle: tCalc('emptySubtitle'),
+              saveSuccess: tCalc('save.success'),
+              saveError: tCalc('save.error'),
+              saveRequireLogin: tCalc('save.requireLogin'),
             }}
           />
         </div>

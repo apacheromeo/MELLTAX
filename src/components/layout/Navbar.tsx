@@ -11,8 +11,10 @@ import { usePathname } from 'next/navigation';
 import { clsx } from 'clsx';
 import { LanguageSwitch } from './LanguageSwitch';
 import { ThemeToggle } from '../theme/ThemeToggle';
+import { AuthButtons } from '@/components/auth/AuthButtons';
 import { MelltaxLogo, CalculatorIcon, PlannerIcon, InfoIcon } from '@/components/icons';
 import { Locale } from '@/lib/i18n/config';
+import { useTranslations } from 'next-intl';
 
 interface NavbarProps {
   locale: Locale;
@@ -32,6 +34,7 @@ interface NavbarProps {
 
 export function Navbar({ locale, translations }: NavbarProps) {
   const pathname = usePathname();
+  const tAuth = useTranslations('auth');
 
   // Premium navigation - only 3 main items as per Dribbble design
   const navItems = [
@@ -115,6 +118,14 @@ export function Navbar({ locale, translations }: NavbarProps) {
 
           {/* Right side controls */}
           <div className="flex items-center gap-3">
+            <AuthButtons
+              translations={{
+                signInWithGoogle: tAuth('signInWithGoogle'),
+                signOut: tAuth('signOut'),
+                welcome: tAuth('welcome'),
+              }}
+            />
+            <div className="hidden md:block w-px h-6 bg-brand-light-border dark:bg-brand-dark-border" />
             <LanguageSwitch currentLocale={locale} />
             <ThemeToggle />
           </div>

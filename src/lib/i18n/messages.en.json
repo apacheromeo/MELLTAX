@@ -33,6 +33,13 @@
     "logout": "Logout"
   },
 
+  "auth": {
+    "signInWithGoogle": "Sign in with Google",
+    "signOut": "Sign out",
+    "welcome": "Welcome",
+    "notSignedIn": "Not signed in"
+  },
+
   "hero": {
     "title": "Simple Thai Withholding Tax Calculator",
     "subtitle": "คำนวณภาษีหัก ณ ที่จ่ายแบบง่าย ๆ",
@@ -71,7 +78,13 @@
     "example3Title": "Landlord",
     "example3Desc": "Rental ฿20,000, 5% tax = ฿1,000 tax, net ฿19,000",
     "example4Title": "Legal Consultant",
-    "example4Desc": "Consulting ฿15,000, 3% tax = ฿450 tax, net ฿14,550"
+    "example4Desc": "Consulting ฿15,000, 3% tax = ฿450 tax, net ฿14,550",
+    "save": {
+      "button": "Save Calculation",
+      "success": "Calculation saved successfully!",
+      "error": "Failed to save calculation",
+      "requireLogin": "Please sign in to save your calculations"
+    }
   },
 
   "planner": {
@@ -121,7 +134,21 @@
     "invoiceCount": "Invoice Count",
     "savePlan": "Save Plan",
     "loginToSavePlan": "Login to save plan",
-    "deleteConfirm": "Are you sure you want to delete this invoice?"
+    "deleteConfirm": "Are you sure you want to delete this invoice?",
+    "savePlanButton": {
+      "button": "Save Current Plan",
+      "promptName": "Enter a name for this plan (e.g., Q1 2025 Tax Plan):",
+      "success": "Plan saved successfully!",
+      "error": "Failed to save plan",
+      "requireLogin": "Please sign in to save your plans"
+    },
+    "recentPlans": {
+      "title": "Your Recent Plans",
+      "loadButton": "Load",
+      "deleteButton": "Delete",
+      "empty": "No saved plans yet. Save your first plan to see it here.",
+      "itemCount": "{count} items"
+    }
   },
 
   "about": {
