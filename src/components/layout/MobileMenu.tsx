@@ -1,7 +1,7 @@
 /**
  * MobileMenu Component
  * Slide-out drawer menu for mobile devices
- * Premium design with smooth animations
+ * Premium design with smooth animations and Supabase auth
  */
 
 'use client';
@@ -14,6 +14,7 @@ import { ProfitIcon } from '@/components/icons/ProfitIcon';
 import { VatIcon } from '@/components/icons/VatIcon';
 import { SalaryIcon } from '@/components/icons/SalaryIcon';
 import { ExpenseIcon } from '@/components/icons/ExpenseIcon';
+import { useSupabaseUser } from '@/hooks/useSupabaseUser';
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -80,6 +81,8 @@ export function MobileMenu({
   isSignedIn,
   onAuth,
 }: MobileMenuProps) {
+  const { user } = useSupabaseUser();
+
   // Close on ESC key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
@@ -186,6 +189,7 @@ export function MobileMenu({
 
           {/* Settings */}
           <div className="px-6 py-4 space-y-3">
+            {/* Language Switcher */}
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 {locale === 'th' ? 'ภาษา' : 'Language'}
@@ -214,6 +218,7 @@ export function MobileMenu({
               </div>
             </div>
 
+            {/* Theme Toggle */}
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                 {locale === 'th' ? 'ธีม' : 'Theme'}
@@ -229,6 +234,33 @@ export function MobileMenu({
 
           <div className="h-px bg-gray-200 dark:bg-slate-700 mx-6" />
 
+          {/* User Info (if signed in) */}
+          {user && (
+            <div className="px-6 py-4">
+              <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-slate-800 rounded-lg">
+                {user.user_metadata?.avatar_url ? (
+                  <img
+                    src={user.user_metadata.avatar_url}
+                    alt={user.user_metadata?.full_name || 'User'}
+                    className="w-10 h-10 rounded-full"
+                  />
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-[#00B894] flex items-center justify-center text-white font-bold">
+                    {user.email?.charAt(0).toUpperCase() || 'U'}
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">
+                    {user.user_metadata?.full_name || user.email?.split('@')[0] || 'User'}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+                    {user.email}
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Auth Button */}
           <div className="px-6 py-4 mt-auto">
             <button
@@ -238,7 +270,7 @@ export function MobileMenu({
               }}
               className="w-full px-4 py-3 bg-[#00B894] hover:bg-[#00A080] text-white font-semibold rounded-xl transition-colors shadow-sm"
             >
-              {isSignedIn
+              {user
                 ? (locale === 'th' ? 'ออกจากระบบ' : 'Sign Out')
                 : (locale === 'th' ? 'เข้าสู่ระบบด้วย Google' : 'Sign in with Google')}
             </button>

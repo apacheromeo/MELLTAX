@@ -1,7 +1,7 @@
 /**
  * Navbar Component
  * Premium top navigation bar with Tools dropdown
- * Dribbble-inspired SaaS design
+ * Dribbble-inspired SaaS design with Supabase authentication
  */
 
 'use client';
@@ -15,6 +15,8 @@ import { MenuIcon } from '@/components/icons/MenuIcon';
 import { ToolsDropdown } from './ToolsDropdown';
 import { MobileMenu } from './MobileMenu';
 import { useOnClickOutside } from '@/hooks/useOnClickOutside';
+import { useSupabaseUser } from '@/hooks/useSupabaseUser';
+import { supabaseBrowser } from '@/lib/supabase/client';
 
 interface NavbarProps {
   locale: 'th' | 'en';
@@ -26,7 +28,9 @@ export function Navbar({ locale, onLocaleChange }: NavbarProps) {
   const [isToolsOpen, setIsToolsOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const [isSignedIn, setIsSignedIn] = useState(false);
+  
+  // Supabase authentication
+  const { user, loading } = useSupabaseUser();
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -86,10 +90,42 @@ export function Navbar({ locale, onLocaleChange }: NavbarProps) {
     window.location.href = newPath;
   };
 
+  // Supabase authentication handlers
+  const handleSignIn = async () => {
+    try {
+      const { error } = await supabaseBrowser.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback`,
+        },
+      });
+
+      if (error) {
+        console.error('Error signing in:', error.message);
+      }
+    } catch (error) {
+      console.error('Sign in error:', error);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      const { error } = await supabaseBrowser.auth.signOut();
+      
+      if (error) {
+        console.error('Error signing out:', error.message);
+      }
+    } catch (error) {
+      console.error('Sign out error:', error);
+    }
+  };
+
   const handleAuth = () => {
-    // Mock auth toggle (will integrate Supabase later)
-    setIsSignedIn(!isSignedIn);
-    console.log(isSignedIn ? 'Sign out' : 'Sign in with Google');
+    if (user) {
+      handleSignOut();
+    } else {
+      handleSignIn();
+    }
   };
 
   const navLinks = [
@@ -205,27 +241,38 @@ export function Navbar({ locale, onLocaleChange }: NavbarProps) {
               </button>
 
               {/* Auth Button */}
-              <button
-                onClick={handleAuth}
-                className={`px-4 py-2 font-semibold rounded-lg transition-all duration-150 ${
-                  isSignedIn
-                    ? 'bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-slate-700'
-                    : 'bg-[#00B894] hover:bg-[#00A080] text-white shadow-sm'
-                }`}
-              >
-                {isSignedIn ? (
-                  <div className="flex items-center gap-2">
-                    <div className="w-6 h-6 rounded-full bg-gray-300 dark:bg-gray-600" />
-                    <span className="text-sm">
-                      {locale === 'th' ? 'บัญชี' : 'Account'}
-                    </span>
-                  </div>
-                ) : (
+              {loading ? (
+                <div className="w-24 h-10 bg-gray-100 dark:bg-slate-800 rounded-lg animate-pulse" />
+              ) : user ? (
+                <button
+                  onClick={handleAuth}
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-100 dark:bg-slate-800 text-gray-700 dark:text-gray-200 hover:bg-gray-200 dark:hover:bg-slate-700 font-semibold rounded-lg transition-all duration-150"
+                >
+                  {user.user_metadata?.avatar_url ? (
+                    <img
+                      src={user.user_metadata.avatar_url}
+                      alt={user.user_metadata?.full_name || 'User'}
+                      className="w-6 h-6 rounded-full"
+                    />
+                  ) : (
+                    <div className="w-6 h-6 rounded-full bg-[#00B894] flex items-center justify-center text-white text-xs font-bold">
+                      {user.email?.charAt(0).toUpperCase() || 'U'}
+                    </div>
+                  )}
+                  <span className="text-sm max-w-[100px] truncate">
+                    {user.user_metadata?.full_name || user.email?.split('@')[0] || locale === 'th' ? 'บัญชี' : 'Account'}
+                  </span>
+                </button>
+              ) : (
+                <button
+                  onClick={handleAuth}
+                  className="px-4 py-2 bg-[#00B894] hover:bg-[#00A080] text-white font-semibold rounded-lg transition-all duration-150 shadow-sm"
+                >
                   <span className="text-sm">
                     {locale === 'th' ? 'เข้าสู่ระบบ' : 'Sign in'}
                   </span>
-                )}
-              </button>
+                </button>
+              )}
             </div>
 
             {/* Mobile: Hamburger Menu */}
@@ -248,7 +295,7 @@ export function Navbar({ locale, onLocaleChange }: NavbarProps) {
         onLocaleChange={handleLocaleChange}
         onThemeToggle={handleThemeToggle}
         theme={theme}
-        isSignedIn={isSignedIn}
+        isSignedIn={!!user}
         onAuth={handleAuth}
       />
     </>
