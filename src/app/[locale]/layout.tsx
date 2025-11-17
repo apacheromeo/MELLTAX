@@ -6,7 +6,6 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
-import Script from 'next/script';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ClientLayout } from '@/components/layout/ClientLayout';
@@ -56,20 +55,6 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className="min-h-screen flex flex-col bg-brand-light dark:bg-brand-dark">
-        {/* JSON-LD Structured Data */}
-        <Script
-          id="schema-web-app"
-          type="application/ld+json"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
-        />
-        <Script
-          id="schema-organization"
-          type="application/ld+json"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
-        />
-
         {/* Skip to Main Content (Accessibility) */}
         <SkipToContent />
 
@@ -89,6 +74,16 @@ export default async function LocaleLayout({
             </NextIntlClientProvider>
           </ToastProvider>
         </ClientLayout>
+
+        {/* JSON-LD Structured Data - at end of body for best practice */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+        />
       </body>
     </html>
   );
