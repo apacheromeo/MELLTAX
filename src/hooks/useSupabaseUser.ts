@@ -22,11 +22,23 @@ export function useSupabaseUser() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Check if Supabase is configured
+    if (!supabaseBrowser) {
+      console.error('Supabase client not initialized');
+      setLoading(false);
+      return;
+    }
+
     // Get initial session
     const getUser = async () => {
       try {
-        const { data: { user } } = await supabaseBrowser.auth.getUser();
-        setUser(user);
+        const { data: { user }, error } = await supabaseBrowser.auth.getUser();
+        if (error) {
+          console.error('Error fetching user:', error);
+          setUser(null);
+        } else {
+          setUser(user);
+        }
       } catch (error) {
         console.error('Error fetching user:', error);
         setUser(null);
