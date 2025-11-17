@@ -15,13 +15,19 @@
 
 import { useEffect, useState } from 'react';
 import { User } from '@supabase/supabase-js';
-import { supabaseBrowser } from '@/lib/supabase/client';
+import { supabaseBrowser, isSupabaseConfigured } from '@/lib/supabase/client';
 
 export function useSupabaseUser() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // If Supabase is not configured, just set loading to false
+    if (!isSupabaseConfigured()) {
+      setLoading(false);
+      return;
+    }
+
     // Get initial session
     const getUser = async () => {
       try {
