@@ -6,6 +6,7 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
+import Script from 'next/script';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ClientLayout } from '@/components/layout/ClientLayout';
@@ -54,23 +55,21 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <head>
+      <body className="min-h-screen flex flex-col bg-brand-light dark:bg-brand-dark">
         {/* JSON-LD Structured Data */}
-        <script
+        <Script
+          id="schema-web-app"
           type="application/ld+json"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
         />
-        <script
+        <Script
+          id="schema-organization"
           type="application/ld+json"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
 
-        {/* Preconnect to speed up external resources */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
-      </head>
-      <body className="min-h-screen flex flex-col bg-brand-light dark:bg-brand-dark">
         {/* Skip to Main Content (Accessibility) */}
         <SkipToContent />
 
