@@ -19,38 +19,38 @@ interface ToolsDropdownProps {
   locale: 'th' | 'en';
 }
 
-const tools = [
+const getTools = (locale: string) => [
   {
     id: 'withholding-tax',
-    href: '/tools/withholding-tax',
+    href: `/${locale}/tools/withholding-tax`,
     icon: CalculatorIcon,
     labelTh: 'คำนวณภาษีหัก ณ ที่จ่าย',
     labelEn: 'Withholding Tax Calculator',
   },
   {
     id: 'profit',
-    href: '/tools/profit',
+    href: `/${locale}/tools/profit`,
     icon: ProfitIcon,
     labelTh: 'คำนวณกำไร',
     labelEn: 'Profit Calculator',
   },
   {
     id: 'vat',
-    href: '/tools/vat',
+    href: `/${locale}/tools/vat`,
     icon: VatIcon,
     labelTh: 'คำนวณภาษีมูลค่าเพิ่ม',
     labelEn: 'VAT Calculator',
   },
   {
     id: 'salary',
-    href: '/tools/salary',
+    href: `/${locale}/tools/salary`,
     icon: SalaryIcon,
     labelTh: 'คำนวณเงินเดือน',
     labelEn: 'Salary Calculator',
   },
   {
     id: 'expense',
-    href: '/tools/expense',
+    href: `/${locale}/tools/expense`,
     icon: ExpenseIcon,
     labelTh: 'คำนวณค่าใช้จ่ายรายเดือน',
     labelEn: 'Monthly Expense Calculator',
@@ -59,6 +59,8 @@ const tools = [
 
 export function ToolsDropdown({ isOpen, onClose, locale }: ToolsDropdownProps) {
   if (!isOpen) return null;
+
+  const tools = getTools(locale);
 
   return (
     <div
@@ -93,7 +95,7 @@ export function ToolsDropdown({ isOpen, onClose, locale }: ToolsDropdownProps) {
       {/* View All Tools */}
       <div className="py-2">
         <Link
-          href="/tools"
+          href={`/${locale}/tools`}
           onClick={onClose}
           className="flex items-center justify-center px-4 py-3 text-sm font-semibold text-[#00B894] hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors duration-150"
           role="menuitem"

@@ -27,48 +27,48 @@ interface MobileMenuProps {
   onAuth: () => void;
 }
 
-const tools = [
+const getTools = (locale: string) => [
   {
     id: 'withholding-tax',
-    href: '/tools/withholding-tax',
+    href: `/${locale}/tools/withholding-tax`,
     icon: CalculatorIcon,
     labelTh: 'คำนวณภาษีหัก ณ ที่จ่าย',
     labelEn: 'Withholding Tax',
   },
   {
     id: 'profit',
-    href: '/tools/profit',
+    href: `/${locale}/tools/profit`,
     icon: ProfitIcon,
     labelTh: 'คำนวณกำไร',
     labelEn: 'Profit Calculator',
   },
   {
     id: 'vat',
-    href: '/tools/vat',
+    href: `/${locale}/tools/vat`,
     icon: VatIcon,
     labelTh: 'VAT',
     labelEn: 'VAT Calculator',
   },
   {
     id: 'salary',
-    href: '/tools/salary',
+    href: `/${locale}/tools/salary`,
     icon: SalaryIcon,
     labelTh: 'เงินเดือน',
     labelEn: 'Salary Calculator',
   },
   {
     id: 'expense',
-    href: '/tools/expense',
+    href: `/${locale}/tools/expense`,
     icon: ExpenseIcon,
     labelTh: 'ค่าใช้จ่าย',
     labelEn: 'Expense Calculator',
   },
 ];
 
-const navLinks = [
-  { href: '/planner', labelTh: 'วางแผนภาษี', labelEn: 'Planner' },
-  { href: '/history', labelTh: 'ประวัติ', labelEn: 'History' },
-  { href: '/about', labelTh: 'เกี่ยวกับ', labelEn: 'About' },
+const getNavLinks = (locale: string) => [
+  { href: `/${locale}/planner`, labelTh: 'วางแผนภาษี', labelEn: 'Planner' },
+  { href: `/${locale}/history`, labelTh: 'ประวัติ', labelEn: 'History' },
+  { href: `/${locale}/about`, labelTh: 'เกี่ยวกับ', labelEn: 'About' },
 ];
 
 export function MobileMenu({
@@ -82,6 +82,8 @@ export function MobileMenu({
   onAuth,
 }: MobileMenuProps) {
   const { user } = useSupabaseUser();
+  const tools = getTools(locale);
+  const navLinks = getNavLinks(locale);
 
   // Close on ESC key
   useEffect(() => {
@@ -152,9 +154,9 @@ export function MobileMenu({
                   </Link>
                 );
               })}
-              
+
               <Link
-                href="/tools"
+                href={`/${locale}/tools`}
                 onClick={onClose}
                 className="flex items-center justify-center px-3 py-2.5 mt-2 text-sm font-semibold text-[#00B894] hover:bg-gray-50 dark:hover:bg-slate-800 rounded-lg transition-colors"
               >

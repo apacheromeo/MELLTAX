@@ -162,7 +162,7 @@ export default function HomePage() {
           </div>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <Link href="/income-tax">
+            <Link href={`/${locale}/income-tax`}>
               <Card variant="dashboard" padding="lg" hover className="h-full group">
                 <div className="mb-4 w-14 h-14 rounded-xl bg-brand-primary-100 dark:bg-brand-primary-900/30 flex items-center justify-center group-hover:bg-brand-primary group-hover:scale-110 transition-all duration-200">
                   <span className="text-2xl group-hover:scale-110 transition-transform duration-200">
@@ -180,7 +180,7 @@ export default function HomePage() {
               </Card>
             </Link>
 
-            <Link href="/vat">
+            <Link href={`/${locale}/vat`}>
               <Card variant="dashboard" padding="lg" hover className="h-full group">
                 <div className="mb-4 w-14 h-14 rounded-xl bg-brand-accent-100 dark:bg-brand-accent-900/30 flex items-center justify-center group-hover:bg-brand-accent group-hover:scale-110 transition-all duration-200">
                   <span className="text-2xl group-hover:scale-110 transition-transform duration-200">
@@ -198,7 +198,7 @@ export default function HomePage() {
               </Card>
             </Link>
 
-            <Link href="/social-security">
+            <Link href={`/${locale}/social-security`}>
               <Card variant="dashboard" padding="lg" hover className="h-full group">
                 <div className="mb-4 w-14 h-14 rounded-xl bg-brand-primary-100 dark:bg-brand-primary-900/30 flex items-center justify-center group-hover:bg-brand-primary group-hover:scale-110 transition-all duration-200">
                   <span className="text-2xl group-hover:scale-110 transition-transform duration-200">
@@ -216,7 +216,7 @@ export default function HomePage() {
               </Card>
             </Link>
 
-            <Link href="/dashboard">
+            <Link href={`/${locale}/dashboard`}>
               <Card variant="dashboard" padding="lg" hover className="h-full group">
                 <div className="mb-4 w-14 h-14 rounded-xl bg-brand-accent-100 dark:bg-brand-accent-900/30 flex items-center justify-center group-hover:bg-brand-accent group-hover:scale-110 transition-all duration-200">
                   <span className="text-2xl group-hover:scale-110 transition-transform duration-200">
@@ -234,7 +234,7 @@ export default function HomePage() {
               </Card>
             </Link>
 
-            <Link href="/planner">
+            <Link href={`/${locale}/planner`}>
               <Card variant="dashboard" padding="lg" hover className="h-full group">
                 <div className="mb-4 w-14 h-14 rounded-xl bg-brand-primary-100 dark:bg-brand-primary-900/30 flex items-center justify-center group-hover:bg-brand-primary group-hover:scale-110 transition-all duration-200">
                   <span className="text-2xl group-hover:scale-110 transition-transform duration-200">
@@ -252,7 +252,7 @@ export default function HomePage() {
               </Card>
             </Link>
 
-            <Link href="/profit">
+            <Link href={`/${locale}/profit`}>
               <Card variant="dashboard" padding="lg" hover className="h-full group">
                 <div className="mb-4 w-14 h-14 rounded-xl bg-brand-accent-100 dark:bg-brand-accent-900/30 flex items-center justify-center group-hover:bg-brand-accent group-hover:scale-110 transition-all duration-200">
                   <span className="text-2xl group-hover:scale-110 transition-transform duration-200">

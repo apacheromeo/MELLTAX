@@ -96,25 +96,25 @@ export default function DashboardPage() {
           </h2>
 
           <div className="grid md:grid-cols-4 gap-3">
-            <Link href="/income-tax">
+            <Link href={`/${locale}/income-tax`}>
               <Button variant="outline" size="md" className="w-full">
                 {tDash('calculateIncomeTax')}
               </Button>
             </Link>
 
-            <Link href="/vat">
+            <Link href={`/${locale}/vat`}>
               <Button variant="outline" size="md" className="w-full">
                 {tDash('calculateVAT')}
               </Button>
             </Link>
 
-            <Link href="/social-security">
+            <Link href={`/${locale}/social-security`}>
               <Button variant="outline" size="md" className="w-full">
                 {tDash('calculateSocialSecurity')}
               </Button>
             </Link>
 
-            <Link href="/">
+            <Link href={`/${locale}`}>
               <Button variant="outline" size="md" className="w-full">
                 {t('withholdingTax')}
               </Button>

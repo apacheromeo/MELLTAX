@@ -12,5 +12,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  // Root layout must return children only when using [locale] layout
+  // The locale layout handles <html> and <body> tags
+  return <>{children}</>;
 }
