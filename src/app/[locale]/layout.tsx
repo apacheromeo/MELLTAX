@@ -30,6 +30,10 @@ export async function generateMetadata({
   return {
     title: t('homeTitle'),
     description: t('homeDescription'),
+    other: {
+      'link-preconnect-fonts-googleapis': 'https://fonts.googleapis.com',
+      'link-preconnect-fonts-gstatic': 'https://fonts.gstatic.com',
+    },
   };
 }
 
@@ -55,7 +59,7 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <head>
+      <body className="min-h-screen flex flex-col bg-brand-light dark:bg-brand-dark">
         {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
@@ -65,12 +69,6 @@ export default async function LocaleLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
-
-        {/* Preconnect to speed up external resources */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
-      <body className="min-h-screen flex flex-col bg-brand-light dark:bg-brand-dark">
         {/* Skip to Main Content (Accessibility) */}
         <SkipToContent />
 
