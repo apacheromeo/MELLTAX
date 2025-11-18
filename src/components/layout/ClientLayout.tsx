@@ -10,8 +10,8 @@
 
 'use client';
 
-import { AdSenseScript } from '@/components/ads/AdSenseScript';
-import { useAdRefresh } from '@/hooks/useAdRefresh';
+import AdSenseScript from '@/components/ads/AdSenseScript';
+import useAdRefresh from '@/hooks/useAdRefresh';
 
 interface ClientLayoutProps {
   children: React.ReactNode;
