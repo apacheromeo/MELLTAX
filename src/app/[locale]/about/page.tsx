@@ -9,9 +9,9 @@
 import { useTranslations } from 'next-intl';
 import { useParams } from 'next/navigation';
 import { Card } from '@/components/common/Card';
-import { AdBanner } from '@/components/ads/AdBanner';
-import { AdInContent } from '@/components/ads/AdInContent';
-import { AdFooter } from '@/components/ads/AdFooter';
+import AdBanner from '@/components/ads/AdBanner';
+import AdInContent from '@/components/ads/AdInContent';
+import AdFooter from '@/components/ads/AdFooter';
 import { InfoIcon } from '@/components/icons';
 import { Locale } from '@/lib/i18n/config';
 
@@ -53,7 +53,7 @@ export default function AboutPage() {
         </div>
 
         {/* Top Ad Banner */}
-        <AdBanner />
+        <AdBanner slotId="ABOUT_TOP" />
 
         {/* What is MELLTAX Section */}
         <Card variant="dashboard" padding="xl">
@@ -170,7 +170,7 @@ export default function AboutPage() {
         </Card>
 
         {/* In-Content Ad */}
-        <AdInContent />
+        <AdInContent slotId="ABOUT_MID" />
 
         {/* Disclaimer Section */}
         <Card variant="dashboard" padding="xl">
@@ -264,7 +264,7 @@ export default function AboutPage() {
         </Card>
 
         {/* Footer Ad */}
-        <AdFooter />
+        <AdFooter slotId="ABOUT_BOTTOM" />
       </div>
     </div>
   );

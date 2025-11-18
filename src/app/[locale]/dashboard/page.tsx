@@ -10,8 +10,8 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Card } from '@/components/common/Card';
 import { Button } from '@/components/common/Button';
-import { AdBanner } from '@/components/ads/AdBanner';
-import { AdInContent } from '@/components/ads/AdInContent';
+import AdBanner from '@/components/ads/AdBanner';
+import AdInContent from '@/components/ads/AdInContent';
 import { Locale } from '@/lib/i18n/config';
 import {
   getUpcomingDeadlines,
@@ -87,7 +87,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Top Ad */}
-        <AdBanner className="mb-8" />
+        <AdBanner slotId="DASHBOARD_TOP" className="mb-8" />
 
         {/* Quick Actions */}
         <div className="mb-8">
@@ -271,7 +271,7 @@ export default function DashboardPage() {
         </div>
 
         {/* In-Content Ad */}
-        <AdInContent className="mb-8" />
+        <AdInContent slotId="DASHBOARD_MID" className="mb-8" />
 
         {/* This Month's Deadlines */}
         <div className="mb-8">

@@ -370,13 +370,16 @@
   },
 
   "seo": {
-    "homeTitle": "MELLTAX - คำนวณภาษีหัก ณ ที่จ่าย | Thai Withholding Tax Calculator",
-    "homeDescription": "เครื่องมือคำนวณภาษีหัก ณ ที่จ่ายตามกฎหมายไทย ฟรี ใช้งานง่าย รองรับภาษาไทยและอังกฤษ สำหรับฟรีแลนซ์และ SMEs",
-    "plannerTitle": "วางแผนภาษี - MELLTAX",
-    "plannerDescription": "วางแผนภาษีหัก ณ ที่จ่ายสำหรับหลายใบแจ้งหนี้ พร้อมกราฟแสดงผล",
-    "profitTitle": "คำนวณกำไรและตั้งราคา - MELLTAX",
-    "profitDescription": "เครื่องมือช่วยคำนวณราคาขายที่เหมาะสมเพื่อให้ได้กำไรตามเป้าหมาย",
-    "aboutTitle": "เกี่ยวกับ - MELLTAX",
-    "aboutDescription": "เกี่ยวกับ MELLTAX เครื่องมือคำนวณภาษีหัก ณ ที่จ่ายสำหรับคนไทย"
+    "homeTitle": "MELLTAX - คำนวณภาษีหัก ณ ที่จ่าย | Thai Withholding Tax Calculator 2025",
+    "homeDescription": "เครื่องมือคำนวณภาษีหัก ณ ที่จ่ายตามกฎหมายไทย ฟรี ใช้งานง่าย แม่นยำ รองรับภาษาไทยและอังกฤษ สำหรับฟรีแลนซ์ SMEs และธุรกิจ อัปเดตตามกฎหมาย 2568",
+    "homeKeywords": "คำนวณภาษีหัก ณ ที่จ่าย, วิธีคำนวณภาษีหัก ณ ที่จ่าย, ภาษีหัก ณ ที่จ่าย, เครื่องมือคำนวณภาษี, คำนวณภาษี, หักภาษี ณ ที่จ่าย, ภาษีเงินได้หัก ณ ที่จ่าย, withholding tax calculator, tax calculator Thailand",
+    "plannerTitle": "วางแผนภาษี - Tax Planner | MELLTAX",
+    "plannerDescription": "วางแผนภาษีหัก ณ ที่จ่ายสำหรับหลายใบแจ้งหนี้ พร้อมกราฟแสดงผล ติดตามภาระภาษีและบริหารกระแสเงินสด",
+    "plannerKeywords": "วางแผนภาษี, คำนวณภาษีหลายใบแจ้งหนี้, tax planner, วางแผนภาษีหัก ณ ที่จ่าย, tax planning Thailand",
+    "profitTitle": "คำนวณกำไร - Profit Calculator | MELLTAX",
+    "profitDescription": "เครื่องมือช่วยคำนวณราคาขายที่เหมาะสมเพื่อให้ได้กำไรตามเป้าหมาย คำนวณต้นทุน ภาษี และกำไรที่ต้องการ",
+    "profitKeywords": "คำนวณกำไร, วิธีคำนวณกำไร, วิธีคิดกำไร, ตั้งราคาขาย, คำนวณราคาขาย, profit calculator, profit margin calculator, คำนวณ profit margin",
+    "aboutTitle": "เกี่ยวกับ - About | MELLTAX",
+    "aboutDescription": "เกี่ยวกับ MELLTAX เครื่องมือคำนวณภาษีหัก ณ ที่จ่ายฟรีสำหรับฟรีแลนซ์ SMEs และธุรกิจ เรียนรู้เพิ่มเติมเกี่ยวกับเครื่องมือและฟีเจอร์ของเรา"
   }
 }
