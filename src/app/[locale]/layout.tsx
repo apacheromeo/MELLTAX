@@ -69,7 +69,6 @@ export default async function LocaleLayout({
         {/* Preconnect to speed up external resources */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
       </head>
       <body className="min-h-screen flex flex-col bg-brand-light dark:bg-brand-dark">
         {/* Skip to Main Content (Accessibility) */}
