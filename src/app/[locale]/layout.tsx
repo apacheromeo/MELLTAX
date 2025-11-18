@@ -12,7 +12,7 @@ import { ClientLayout } from '@/components/layout/ClientLayout';
 import { SkipToContent } from '@/components/layout/SkipToContent';
 import { TopLoadingBar } from '@/components/common/TopLoadingBar';
 import { ToastProvider } from '@/components/common/ToastProvider';
-import ClientAdSenseWrapper from '@/components/ads/ClientAdSenseWrapper';
+// import ClientAdSenseWrapper from '@/components/ads/ClientAdSenseWrapper'; // Temporarily disabled
 import { locales, Locale } from '@/lib/i18n/config';
 import { getWebApplicationSchema, getOrganizationSchema } from '@/lib/jsonld';
 
@@ -78,8 +78,8 @@ export default async function LocaleLayout({
         {/* Top Loading Bar */}
         <TopLoadingBar />
 
-        {/* AdSense Script Loader and Ad Refresh Handler */}
-        <ClientAdSenseWrapper />
+        {/* AdSense Script Loader and Ad Refresh Handler - Temporarily disabled */}
+        {/* <ClientAdSenseWrapper /> */}
 
         <ClientLayout>
           <ToastProvider>

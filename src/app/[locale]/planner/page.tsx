@@ -14,9 +14,9 @@ import { useParams } from 'next/navigation';
 import { PlannerAddForm } from '@/components/planner/PlannerAddForm';
 import { PlannerTable } from '@/components/planner/PlannerTable';
 import { PlannerSummaryCard } from '@/components/planner/PlannerSummaryCard';
-import AdBanner from '@/components/ads/AdBanner';
-import AdInContent from '@/components/ads/AdInContent';
-import AdFooter from '@/components/ads/AdFooter';
+// import AdBanner from '@/components/ads/AdBanner';
+// import AdInContent from '@/components/ads/AdInContent';
+// import AdFooter from '@/components/ads/AdFooter';
 import { Card } from '@/components/common/Card';
 import { Skeleton } from '@/components/common/Skeleton';
 import { PlannerItem } from '@/types/planner';
@@ -171,7 +171,7 @@ export default function PlannerPage() {
         </div>
 
         {/* Top Ad Banner */}
-        <AdBanner slotId="PLANNER_TOP" />
+        {/* <AdBanner slotId="PLANNER_TOP" /> */}
 
         {/* Add Form + Summary Grid */}
         <div className="grid lg:grid-cols-2 gap-6">
@@ -249,7 +249,7 @@ export default function PlannerPage() {
         </div>
 
         {/* In-Content Ad */}
-        {items.length > 0 && <AdInContent slotId="PLANNER_MID" />}
+        {items.length > 0 && <AdInContent slotId="PLANNER_MID" /> */}}
 
         {/* Planner Chart */}
         <div>
@@ -347,7 +347,7 @@ export default function PlannerPage() {
         )}
 
         {/* Footer Ad */}
-        <AdFooter slotId="PLANNER_BOTTOM" />
+        {/* <AdFooter slotId="PLANNER_BOTTOM" /> */}
       </div>
     </div>
   );

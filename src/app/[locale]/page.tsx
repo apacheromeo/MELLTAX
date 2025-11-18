@@ -12,9 +12,10 @@ import Link from 'next/link';
 import { WithholdingForm } from '@/components/calculator/WithholdingForm';
 import { WithholdingResultCard } from '@/components/calculator/WithholdingResultCard';
 import { TaxScenarioExamples } from '@/components/calculator/TaxScenarioExamples';
-import AdBanner from '@/components/ads/AdBanner';
-import AdInContent from '@/components/ads/AdInContent';
-import AdFooter from '@/components/ads/AdFooter';
+// Temporarily disabled AdSense
+// import AdBanner from '@/components/ads/AdBanner';
+// import AdInContent from '@/components/ads/AdInContent';
+// import AdFooter from '@/components/ads/AdFooter';
 import { Card } from '@/components/common/Card';
 import { MelltaxLogo } from '@/components/icons';
 import { WithholdingResult, WithholdingInput } from '@/types/tax';
@@ -83,8 +84,8 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Top Ad Banner */}
-        <AdBanner slotId="HOME_TOP" />
+        {/* Top Ad Banner - Temporarily disabled */}
+        {/* <AdBanner slotId="HOME_TOP" /> */}
 
         {/* Main Calculator Section */}
         <div className="grid lg:grid-cols-2 gap-6">
@@ -131,8 +132,8 @@ export default function HomePage() {
           />
         </div>
 
-        {/* In-Content Ad */}
-        <AdInContent slotId="HOME_MID" />
+        {/* In-Content Ad - Temporarily disabled */}
+        {/* <AdInContent slotId="HOME_MID" /> */}
 
         {/* Examples and FAQ */}
         <TaxScenarioExamples
@@ -328,8 +329,8 @@ export default function HomePage() {
           </div>
         </Card>
 
-        {/* Footer Ad */}
-        <AdFooter slotId="HOME_BOTTOM" />
+        {/* Footer Ad - Temporarily disabled */}
+        {/* <AdFooter slotId="HOME_BOTTOM" /> */}
       </div>
     </div>
   );

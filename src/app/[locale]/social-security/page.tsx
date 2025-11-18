@@ -11,8 +11,8 @@ import { useParams } from 'next/navigation';
 import { Card } from '@/components/common/Card';
 import { Button } from '@/components/common/Button';
 import { Input } from '@/components/common/Input';
-import AdBanner from '@/components/ads/AdBanner';
-import AdInContent from '@/components/ads/AdInContent';
+// import AdBanner from '@/components/ads/AdBanner';
+// import AdInContent from '@/components/ads/AdInContent';
 import { Locale } from '@/lib/i18n/config';
 import {
   calculateSocialSecurity,
@@ -82,7 +82,7 @@ export default function SocialSecurityPage() {
         </div>
 
         {/* Top Ad */}
-        <AdBanner slotId="SOCIAL_SECURITY_TOP" className="mb-8" />
+        {/* <AdBanner slotId="SOCIAL_SECURITY_TOP" className="mb-8" />
 
         <div className="grid lg:grid-cols-2 gap-6 mb-8">
           {/* Left: Calculator Form */}
@@ -289,7 +289,7 @@ export default function SocialSecurityPage() {
         </div>
 
         {/* In-Content Ad */}
-        <AdInContent slotId="SOCIAL_SECURITY_MID" className="mb-8" />
+        {/* <AdInContent slotId="SOCIAL_SECURITY_MID" className="mb-8" />
       </div>
     </div>
   );

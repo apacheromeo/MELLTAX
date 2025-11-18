@@ -5,7 +5,7 @@
 
 import { getTranslations } from 'next-intl/server';
 import { ProfitCalculatorForm } from '@/components/profit/ProfitCalculatorForm';
-import AdBanner from '@/components/ads/AdBanner';
+// import AdBanner from '@/components/ads/AdBanner';
 
 export async function generateMetadata({
   params: { locale },
@@ -42,7 +42,7 @@ export default async function ProfitPage({
 
         {/* AdSense Banner */}
         <div className="mb-8">
-          <AdBanner slotId="profit-top" />
+          <AdBanner slotId="profit-top" /> */}
         </div>
 
         {/* Calculator Form */}
