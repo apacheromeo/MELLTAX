@@ -11,8 +11,8 @@ import { useParams } from 'next/navigation';
 import { Card } from '@/components/common/Card';
 import { Button } from '@/components/common/Button';
 import { Input } from '@/components/common/Input';
-import { AdBanner } from '@/components/ads/AdBanner';
-import { AdInContent } from '@/components/ads/AdInContent';
+import AdBanner from '@/components/ads/AdBanner';
+import AdInContent from '@/components/ads/AdInContent';
 import { Locale } from '@/lib/i18n/config';
 import {
   calculatePersonalIncomeTax,
@@ -109,7 +109,7 @@ export default function IncomeTaxPage() {
         </div>
 
         {/* Top Ad */}
-        <AdBanner className="mb-8" />
+        <AdBanner slotId="INCOME_TAX_TOP" className="mb-8" />
 
         <div className="grid lg:grid-cols-2 gap-6 mb-8">
           {/* Left: Income & Deductions Form */}
@@ -454,7 +454,7 @@ export default function IncomeTaxPage() {
         </div>
 
         {/* In-Content Ad */}
-        <AdInContent className="mb-8" />
+        <AdInContent slotId="INCOME_TAX_MID" className="mb-8" />
       </div>
     </div>
   );

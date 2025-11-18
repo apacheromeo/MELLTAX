@@ -5,7 +5,7 @@
 
 import { getTranslations } from 'next-intl/server';
 import { ProfitCalculatorForm } from '@/components/profit/ProfitCalculatorForm';
-import { AdBanner } from '@/components/ads/AdBanner';
+import AdBanner from '@/components/ads/AdBanner';
 
 export async function generateMetadata({
   params: { locale },
