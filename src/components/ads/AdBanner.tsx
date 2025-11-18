@@ -1,85 +1,104 @@
-/**
- * AdBanner Component
- * Phase 7: Wide horizontal banner ad (top of page)
- * 
- * Features:
- * - CLS-safe with min-height placeholder
- * - Responsive AdSense unit
- * - Dark mode container support
- * - AdBlock fallback
- */
-
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import { useTranslations } from 'next-intl';
 
 interface AdBannerProps {
-  slotId?: string;
+  slotId: string;
   className?: string;
 }
 
-export function AdBanner({ slotId = '0000000000', className = '' }: AdBannerProps) {
+/**
+ * AdBanner Component
+ *
+ * Wide horizontal ad format for top-of-page placement (under hero or header).
+ * Features:
+ * - CLS-safe with min-height placeholder (120px)
+ * - Centered content
+ * - Responsive AdSense unit
+ * - Dark mode support
+ * - Fallback for ad blockers
+ *
+ * @param slotId - The AdSense ad slot ID for this placement
+ * @param className - Additional CSS classes
+ */
+export default function AdBanner({ slotId, className = '' }: AdBannerProps) {
   const t = useTranslations('ads');
   const adRef = useRef<HTMLDivElement>(null);
-  const [adError, setAdError] = useState(false);
+  const [adBlocked, setAdBlocked] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const hasInitialized = useRef(false);
 
   useEffect(() => {
-    // Only run on client
-    if (typeof window === 'undefined') return;
+    if (!hasInitialized.current && adRef.current) {
+      hasInitialized.current = true;
 
-    // Check if AdSense is configured
-    const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
-    if (!clientId) {
-      setAdError(true);
-      return;
-    }
+      // Small delay to ensure AdSense script is loaded
+      const timer = setTimeout(() => {
+        try {
+          // Initialize AdSense ad
+          ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+          setIsLoading(false);
+        } catch (error) {
+          console.warn('AdSense initialization failed:', error);
+          setAdBlocked(true);
+          setIsLoading(false);
+        }
+      }, 100);
 
-    try {
-      // Initialize AdSense ad
-      const adsbygoogle = (window as any).adsbygoogle || [];
-      
-      // Push ad request
-      if (adRef.current && adRef.current.querySelector('.adsbygoogle')) {
-        adsbygoogle.push({});
-      }
-    } catch (error) {
-      console.error('AdSense error:', error);
-      setAdError(true);
+      // Check if ad was blocked after 2 seconds
+      const blockCheckTimer = setTimeout(() => {
+        if (adRef.current) {
+          const ins = adRef.current.querySelector('ins');
+          if (ins && ins.getAttribute('data-ad-status') === 'unfilled') {
+            setAdBlocked(true);
+          }
+        }
+      }, 2000);
+
+      return () => {
+        clearTimeout(timer);
+        clearTimeout(blockCheckTimer);
+      };
     }
   }, []);
 
+  const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || '';
+
+  if (!clientId) {
+    return null; // Don't render if no client ID
+  }
+
   return (
     <div
-      className={`w-full flex justify-center py-6 ${className}`}
-      ref={adRef}
+      className={`w-full flex justify-center my-6 ${className}`}
+      aria-label={t('sponsored')}
     >
       <div className="w-full max-w-5xl">
-        {/* Ad label */}
-        <div className="text-xs text-brand-text-lighter dark:text-brand-text-dark-lighter text-center mb-2">
-          {t('sponsored')}
+        {/* Label */}
+        <div className="text-xs text-gray-400 dark:text-gray-500 text-center mb-2">
+          {isLoading ? t('loading') : t('sponsored')}
         </div>
 
-        {/* Ad container with CLS prevention */}
+        {/* Ad Container with CLS-safe placeholder */}
         <div
-          className="rounded-xl bg-gray-50 dark:bg-slate-800 border border-gray-200 dark:border-slate-700 overflow-hidden"
+          ref={adRef}
+          className="min-h-[120px] bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden flex items-center justify-center"
           style={{ minHeight: '120px' }}
         >
-          {!adError ? (
+          {adBlocked ? (
+            <div className="text-sm text-gray-400 dark:text-gray-500 text-center py-8">
+              {t('blocked')}
+            </div>
+          ) : (
             <ins
               className="adsbygoogle"
               style={{ display: 'block' }}
-              data-ad-client={process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}
+              data-ad-client={clientId}
               data-ad-slot={slotId}
               data-ad-format="auto"
               data-full-width-responsive="true"
             />
-          ) : (
-            <div className="flex items-center justify-center h-full min-h-[120px]">
-              <p className="text-sm text-gray-400 dark:text-gray-500 text-center py-8">
-                {t('blocked')}
-              </p>
-            </div>
           )}
         </div>
       </div>

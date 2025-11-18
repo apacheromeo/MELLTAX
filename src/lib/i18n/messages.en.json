@@ -364,14 +364,17 @@
   },
 
   "seo": {
-    "homeTitle": "MELLTAX - Thai Withholding Tax Calculator | คำนวณภาษีหัก ณ ที่จ่าย",
-    "homeDescription": "Free Thai withholding tax calculator. Easy to use, supports Thai and English. For freelancers and SMEs.",
-    "plannerTitle": "Tax Planner - MELLTAX",
-    "plannerDescription": "Plan withholding tax for multiple invoices with charts",
-    "profitTitle": "Profit Calculator - MELLTAX",
-    "profitDescription": "Calculate optimal selling price to achieve your target profit margin",
-    "aboutTitle": "About - MELLTAX",
-    "aboutDescription": "About MELLTAX - Thai withholding tax calculator for everyone"
+    "homeTitle": "MELLTAX - คำนวณภาษีหัก ณ ที่จ่าย | Thai Withholding Tax Calculator 2025",
+    "homeDescription": "Free withholding tax calculator for Thailand. Calculate tax deductions accurately for freelancers, SMEs, and businesses. Supports Thai and English. Easy, fast, and compliant with 2025 tax laws.",
+    "homeKeywords": "คำนวณภาษีหัก ณ ที่จ่าย, withholding tax calculator, ภาษีหัก ณ ที่จ่าย, tax calculator Thailand, คำนวณภาษี, เครื่องมือคำนวณภาษี, วิธีคำนวณภาษีหัก ณ ที่จ่าย, หักภาษี ณ ที่จ่าย, ภาษีเงินได้หัก ณ ที่จ่าย",
+    "plannerTitle": "Tax Planner - วางแผนภาษี | MELLTAX",
+    "plannerDescription": "Plan withholding tax for multiple invoices with visual charts. Track your tax obligations and optimize cash flow.",
+    "plannerKeywords": "วางแผนภาษี, tax planner, คำนวณภาษีหลายใบแจ้งหนี้, tax planning Thailand",
+    "profitTitle": "Profit Calculator - คำนวณกำไร | MELLTAX",
+    "profitDescription": "Calculate optimal selling price to achieve your target profit margin. Factor in costs, taxes, and desired profit percentage.",
+    "profitKeywords": "คำนวณกำไร, วิธีคำนวณกำไร, profit calculator, ตั้งราคาขาย, คำนวณราคาขาย, วิธีคิดกำไร, profit margin calculator",
+    "aboutTitle": "About - เกี่ยวกับ | MELLTAX",
+    "aboutDescription": "About MELLTAX - Free Thai withholding tax calculator for freelancers, SMEs, and businesses. Learn more about our tools and features."
   },
 
   "ads": {

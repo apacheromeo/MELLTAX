@@ -1,57 +1,51 @@
-/**
- * useAdRefresh Hook
- * Phase 7: Refresh ads on route change
- * 
- * This hook:
- * - Listens to Next.js route changes
- * - Refreshes AdSense ads when user navigates
- * - Debounces refresh to prevent excessive calls
- * - Handles errors gracefully
- */
-
 'use client';
 
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
-export function useAdRefresh() {
+/**
+ * useAdRefresh Hook
+ *
+ * Refreshes Google AdSense ads when navigating between pages in Next.js.
+ * Uses the Next.js navigation events to detect route changes and triggers
+ * ad refresh with a debounced approach to prevent excessive refreshes.
+ *
+ * This ensures ads reload correctly when users navigate without full page refresh.
+ */
+export default function useAdRefresh() {
   const pathname = usePathname();
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-  const previousPathRef = useRef<string>('');
+  const previousPathname = useRef<string | null>(null);
+  const debounceTimer = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    // Only run on client
-    if (typeof window === 'undefined') return;
+    // Only refresh if pathname actually changed
+    if (previousPathname.current !== null && previousPathname.current !== pathname) {
+      // Clear any existing debounce timer
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
 
-    // Skip if pathname hasn't changed
-    if (pathname === previousPathRef.current) return;
-    previousPathRef.current = pathname;
-
-    // Clear any pending refresh
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
+      // Debounce the ad refresh by 100ms
+      debounceTimer.current = setTimeout(() => {
+        try {
+          // Trigger AdSense ad refresh
+          if (typeof window !== 'undefined' && (window as any).adsbygoogle) {
+            ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+          }
+        } catch (error) {
+          // Silently fail - ads might not be loaded yet or could be blocked
+          console.debug('Ad refresh failed:', error);
+        }
+      }, 100);
     }
 
-    // Debounce ad refresh by 100ms
-    timeoutRef.current = setTimeout(() => {
-      try {
-        // Check if AdSense is loaded
-        const adsbygoogle = (window as any).adsbygoogle;
-        
-        if (adsbygoogle && Array.isArray(adsbygoogle)) {
-          // Refresh all ads on the page
-          adsbygoogle.push({});
-          console.log('AdSense: Refreshed ads for route:', pathname);
-        }
-      } catch (error) {
-        // Silently fail - ads are not critical
-        console.debug('AdSense refresh error:', error);
-      }
-    }, 100);
+    // Update previous pathname
+    previousPathname.current = pathname;
 
+    // Cleanup
     return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
       }
     };
   }, [pathname]);
