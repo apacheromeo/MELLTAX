@@ -60,27 +60,11 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className="min-h-screen flex flex-col bg-brand-light dark:bg-brand-dark">
-        {/* JSON-LD Structured Data */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
-        />
-        {/* Skip to Main Content (Accessibility) */}
-        <SkipToContent />
-
-        {/* Top Loading Bar */}
-        <TopLoadingBar />
-
-        {/* AdSense Script Loader and Ad Refresh Handler - Temporarily disabled */}
-        {/* <ClientAdSenseWrapper /> */}
-
         <ClientLayout>
           <ToastProvider>
             <NextIntlClientProvider messages={messages}>
+              <SkipToContent />
+              <TopLoadingBar />
               <Navbar locale={locale as Locale} />
 
               <main id="main-content" className="flex-1">
@@ -91,6 +75,16 @@ export default async function LocaleLayout({
             </NextIntlClientProvider>
           </ToastProvider>
         </ClientLayout>
+
+        {/* JSON-LD Structured Data at end of body */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+        />
       </body>
     </html>
   );
