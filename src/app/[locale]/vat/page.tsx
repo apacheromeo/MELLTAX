@@ -100,7 +100,7 @@ export default function VATPage() {
         </div>
 
         {/* Top Ad */}
-        {/* <AdBanner slotId="VAT_TOP" className="mb-8" />
+        {/* <AdBanner slotId="VAT_TOP" className="mb-8" /> */}
 
         <div className="grid lg:grid-cols-2 gap-6 mb-8">
           {/* Left: Calculator Form */}
@@ -310,7 +310,7 @@ export default function VATPage() {
         </div>
 
         {/* In-Content Ad */}
-        {/* <AdInContent slotId="VAT_MID" className="mb-8" />
+        {/* <AdInContent slotId="VAT_MID" className="mb-8" /> */}
       </div>
     </div>
   );

@@ -249,7 +249,7 @@ export default function PlannerPage() {
         </div>
 
         {/* In-Content Ad */}
-        {items.length > 0 && <AdInContent slotId="PLANNER_MID" /> */}}
+        {/* {items.length > 0 && <AdInContent slotId="PLANNER_MID" />} */}
 
         {/* Planner Chart */}
         <div>
